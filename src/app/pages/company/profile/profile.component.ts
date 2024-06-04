@@ -83,7 +83,7 @@ export class ProfileComponent {
     }
   }
   logout() {
-    this.router.navigate(['/account/keryar-login']);
+    this.router.navigate(['/account/login']);
   }
   getStaffDetails() {
     

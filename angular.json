@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "cesociety-dashboard": {
+    "foster-dashboard": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/cesociety-dashboard",
+            "outputPath": "dist/foster-dashboard",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -107,10 +107,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "cesociety-dashboard:build:production"
+              "buildTarget": "foster-dashboard:build:production"
             },
             "development": {
-              "buildTarget": "cesociety-dashboard:build:development"
+              "buildTarget": "foster-dashboard:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -118,7 +118,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "cesociety-dashboard:build"
+            "buildTarget": "foster-dashboard:build"
           }
         },
         "test": {

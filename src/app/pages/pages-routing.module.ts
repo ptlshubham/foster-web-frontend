@@ -9,7 +9,7 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
-    path: 'company', loadChildren: () => import('./company/company.module').then(m => m.CompanyModule)
+    path: '', loadChildren: () => import('./company/company.module').then(m => m.CompanyModule)
   }
 ];
 

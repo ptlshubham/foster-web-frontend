@@ -27,9 +27,7 @@ export class TopbarComponent implements OnInit {
   cookieValue: any;
   countryName: any;
   valueset: any;
-  collegeName: any;
   adminName: any;
-  InstituteURL: any;
   company: any;
   role: any = localStorage.getItem('Role');
   tokenData: any = []
@@ -67,9 +65,7 @@ export class TopbarComponent implements OnInit {
   layoutMode!: string;
 
   ngOnInit(): void {
-    this.collegeName = localStorage.getItem('InstituteName');
     this.adminName = localStorage.getItem('Name');
-    this.InstituteURL = localStorage.getItem('InstituteURL');
     this.company = localStorage.getItem('Company');
     this.layoutMode = LAYOUT_MODE;
 
@@ -123,14 +119,8 @@ export class TopbarComponent implements OnInit {
    * Logout the user
    */
   logout() {
-    if (this.company == true) {
-      localStorage.clear();
-      this.router.navigate(['/account/keryar-login']);
-    }
-    else {
-      localStorage.clear();
-      this.router.navigate(['/account/login']);
-    }
+    localStorage.clear();
+    this.router.navigate(['/account/login']);
   }
   getAllToken() {
     this.tokensService.getAllTokenData().subscribe((res: any) => {
@@ -139,7 +129,7 @@ export class TopbarComponent implements OnInit {
           this.companyService.getAssignedEmpDetailsById(element.clientid).subscribe((data: any) => {
             res[index].assignedDesigners = data.filter((employee: any) => employee.role === 'Designer');
             res[index].assignedManagers = data.filter((employee: any) => employee.role === 'Manager');
-            
+
           })
         }
       });

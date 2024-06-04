@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from 'src/app/core/services/home.services';
-import { StaffService } from 'src/app/core/services/staff.services';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,7 +39,6 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private homeService: HomeService,
-    private staffService: StaffService
   ) {
 
   }
@@ -54,72 +52,12 @@ export class DashboardComponent implements OnInit {
       { label: 'Dashboard' },
       { label: 'Dashboard', active: true }
     ];
-    this.company = localStorage.getItem('Company');
-    
-    /**
-     * Fetches the data
-     */
-    this.fetchData();
+    this.company = localStorage.getItem('Company');  
+
   }
 
   /**
    * Fetches the data
    */
-  private fetchData() {
-    this.getDepartmentDetails();
-    this.getImagesDataById();
-    this.getNewsDetails();
-    this.getStaffDetails();
-    this.getContactUsDetails();
-    this.getInfraDataById();
-    this.getBlogDetails();
-    this.getResultDataById();
-    this.getAllInstituteDetails();
-  }
-  getDepartmentDetails() {
-    this.homeService.getDepartmentDataById(localStorage.getItem('InstituteId')).subscribe((res: any) => {
-      this.departmentData = res;
-    })
-  }
-  getImagesDataById() {
-    this.homeService.getBannersImagesById(localStorage.getItem('InstituteId')).subscribe((res: any) => {
-      this.imagesData = res;
-    })
-  }
-  getNewsDetails() {
-    this.homeService.getNewsDataById(localStorage.getItem('InstituteId')).subscribe((res: any) => {
-      this.newsData = res;
-    })
-  }
-  getStaffDetails() {
-    this.staffService.getAllStaffDetailsData(localStorage.getItem('InstituteId')).subscribe((res: any) => {
-      this.staffData = res;
-
-    })
-  }
-  getContactUsDetails() {
-    this.homeService.getContactUsDetails(localStorage.getItem('InstituteId')).subscribe((res: any) => {
-      this.contactData = res;
-    })
-  }
-  getInfraDataById() {
-    this.homeService.getImfraDetails(localStorage.getItem('InstituteId')).subscribe((res: any) => {
-      this.infraData = res;
-    })
-  }
-  getBlogDetails() {
-    this.homeService.getBlogsById(localStorage.getItem('InstituteId')).subscribe((res: any) => {
-      this.blogsData = res;
-    })
-  }
-  getResultDataById() {
-    this.homeService.getResultDetailsById(localStorage.getItem('InstituteId')).subscribe((res: any) => {
-      this.resultData = res;
-    })
-  }
-  getAllInstituteDetails() {
-    this.homeService.getAllInstituteData().subscribe((res: any) => {
-      this.instituteList = res;
-    })
-  }
+  
 }

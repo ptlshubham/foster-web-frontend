@@ -8,14 +8,8 @@ export class AuthGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const currentUser = localStorage.getItem('InstituteName');
         const adminUser = localStorage.getItem('Name');
-
-        if (currentUser) {
-            // user logged in so return true
-            return true;
-        }
-        else if (adminUser) {
+        if (adminUser) {
             // Admin logged in so return true
 
             return true;
