@@ -5,15 +5,12 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AccountRoutingModule } from './account-routing.module';
-import { AuthModule } from './auth/auth.module';
+import { OrganizationLoginComponent } from './organization-login/organization-login.component';
 
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
-    LoginComponent,
-    RegisterComponent
+    OrganizationLoginComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +18,6 @@ import { RegisterComponent } from './register/register.component';
     ReactiveFormsModule,
     FormsModule,
     AccountRoutingModule,
-    AuthModule
   ]
 })
 export class AccountModule { }

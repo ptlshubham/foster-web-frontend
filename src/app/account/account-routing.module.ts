@@ -1,19 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { OrganizationLoginComponent } from './organization-login/organization-login.component';
 
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
-  { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
   {
     path: 'login',
-    component: LoginComponent
+    component: OrganizationLoginComponent
   },
-  {
-    path: 'register',
-    component: RegisterComponent
-  }
 ];
 
 @NgModule({
