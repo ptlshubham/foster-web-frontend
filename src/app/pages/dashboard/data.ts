@@ -6,7 +6,7 @@ const walletOverview: ChartType = {
     height: 227,
     type: 'pie'
   },
-  colors: ["#777aca", "#203154", "#a8aada"],
+  colors: ["#777aca", "#0e8f99", "#a8aada"],
   legend: { show: !1 },
   stroke: {
     width: 0
@@ -40,7 +40,7 @@ const investedOverview: ChartType = {
       }
     }
   },
-  colors: ['#203154'],
+  colors: ['#0e8f99'],
   fill: {
     type: "gradient",
     gradient: {
@@ -95,7 +95,7 @@ const marketOverview: ChartType = {
   stroke: {
     curve: 'smooth'
   },
-  colors: ["#203154", "#34c38f"],
+  colors: ["#0e8f99", "#34c38f"],
   fill: { opacity: 1 },
   dataLabels: { enabled: !1 },
   legend: { show: !1 },
@@ -126,7 +126,7 @@ const walletlineChart: ChartType = {
     { data: [2, 10, 18, 22, 36, 15, 47, 75, 65, 19, 14, 2, 47, 42, 15] },
   ],
   chart: { type: "line", height: 50, sparkline: { enabled: !0 } },
-  colors: ['#203154'],
+  colors: ['#0e8f99'],
   stroke: { curve: "smooth", width: 2 },
   tooltip: {
     fixed: { enabled: !1 },
@@ -143,7 +143,7 @@ const tradeslineChart: ChartType = {
     { data: [15, 42, 47, 2, 14, 19, 65, 75, 47, 15, 42, 47, 2, 14, 12] },
   ],
   chart: { type: "line", height: 50, sparkline: { enabled: !0 } },
-  colors: ['#203154'],
+  colors: ['#0e8f99'],
   stroke: { curve: "smooth", width: 2 },
   tooltip: {
     fixed: { enabled: !1 },
@@ -160,7 +160,7 @@ const investedlineChart: ChartType = {
     { data: [47, 15, 2, 67, 22, 20, 36, 60, 60, 30, 50, 11, 12, 3, 8] },
   ],
   chart: { type: "line", height: 50, sparkline: { enabled: !0 } },
-  colors: ['#203154'],
+  colors: ['#0e8f99'],
   stroke: { curve: "smooth", width: 2 },
   tooltip: {
     fixed: { enabled: !1 },
@@ -177,7 +177,7 @@ const profitlineChart: ChartType = {
     { data: [12, 14, 2, 47, 42, 15, 47, 75, 65, 19, 14, 2, 47, 42, 15] },
   ],
   chart: { type: "line", height: 50, sparkline: { enabled: !0 } },
-  colors: ['#203154'],
+  colors: ['#0e8f99'],
   stroke: { curve: "smooth", width: 2 },
   tooltip: {
     fixed: { enabled: !1 },

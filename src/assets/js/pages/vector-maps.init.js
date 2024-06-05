@@ -27,7 +27,7 @@ File: Vector Maps init Js File
 			 markerStyle: {
                 initial: {
                     r: 9,
-                    'fill': '#203154',
+                    'fill': '#0e8f99',
                     'fill-opacity': 0.9,
                     'stroke': '#fff',
                     'stroke-width' : 7,
@@ -112,7 +112,7 @@ File: Vector Maps init Js File
 			backgroundColor : 'transparent',
 			regionStyle : {
 				initial : {
-					fill : '#203154'
+					fill : '#0e8f99'
 				}
 			}
     });
@@ -122,7 +122,7 @@ File: Vector Maps init Js File
 			backgroundColor : 'transparent',
 			regionStyle : {
 				initial : {
-					fill : '#203154'
+					fill : '#0e8f99'
 				}
 			}
     });
@@ -132,7 +132,7 @@ File: Vector Maps init Js File
 			backgroundColor : 'transparent',
 			regionStyle : {
 				initial : {
-					fill : '#203154'
+					fill : '#0e8f99'
 				}
 			}
     });
@@ -142,7 +142,7 @@ File: Vector Maps init Js File
 			backgroundColor : 'transparent',
 			regionStyle : {
 				initial : {
-					fill : '#203154'
+					fill : '#0e8f99'
 				}
 			}
     });
@@ -152,7 +152,7 @@ File: Vector Maps init Js File
 			backgroundColor : 'transparent',
 			regionStyle : {
 				initial : {
-					fill : '#203154'
+					fill : '#0e8f99'
 				}
 			}
 		});
@@ -162,7 +162,7 @@ File: Vector Maps init Js File
 			backgroundColor : 'transparent',
 			regionStyle : {
 				initial : {
-					fill : '#203154'
+					fill : '#0e8f99'
 				}
 			}
     });

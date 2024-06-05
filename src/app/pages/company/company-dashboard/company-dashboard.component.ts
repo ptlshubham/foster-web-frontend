@@ -75,7 +75,7 @@ export class CompanyDashboardComponent {
       height: 227,
       type: 'pie'
     },
-    colors: ["#ffbf53", "#203154", "#2ab57d"],
+    colors: ["#ffbf53", "#0e8f99", "#2ab57d"],
     legend: { show: false },
     stroke: {
       width: 0
