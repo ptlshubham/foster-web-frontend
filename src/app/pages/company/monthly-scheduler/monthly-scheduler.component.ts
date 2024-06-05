@@ -19,7 +19,7 @@ import { CompanyService } from 'src/app/core/services/company.service';
 })
 export class MonthlySchedulerComponent {
   // bread crumb items
-  breadCrumbItems!: Array<{}>;
+  // breadCrumbItems!: Array<{}>;
   calendarEvents!: any[];
   editEvent: any;
   formEditData!: UntypedFormGroup;
@@ -56,9 +56,6 @@ export class MonthlySchedulerComponent {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
-    // select: this.openModal.bind(this),
-    eventClick: this.handleEventClick.bind(this),
-    eventsSet: this.handleEvents.bind(this)
   };
   customizeEventContent(eventInfo: EventContentArg) {
     const eventEl = document.createElement('div');
@@ -108,13 +105,31 @@ export class MonthlySchedulerComponent {
       // Optionally, do something with the filteredData, like updating the UI
       console.log(this.clientdata.monthData);
       if (this.monthData && this.monthData.length > 0) {
-        this.calendarEvents = this.monthData.map((element: any) => ({
-          id: element.id,
-          title: element.title,
-          description: element.description,
-          start: new Date(element.date),
-          allDay: false
-        }));
+        this.calendarEvents = this.monthData.map((element: any) => {
+          let className = '';
+          switch (element.title) {
+            case 'Post':
+              className = 'bg-primary text-white';
+              break;
+            case 'Story':
+              className = 'bg-info text-white';
+              break;
+            case 'Reel':
+              className = 'bg-dark text-white';
+              break;
+            case 'Festival':
+              className = 'bg-warning text-white';
+              break;
+          }
+          return {
+            id: element.id,
+            title: element.title,
+            description: element.description,
+            start: new Date(element.date),
+            allDay: false,
+            className: className
+          };
+        });
       }
       if (this.completedData.length > 0) {
         const compTasks = this.completedData.map((element: any) => ({
@@ -135,11 +150,6 @@ export class MonthlySchedulerComponent {
    * Fetches the data
    */
   private _fetchData() {
-    //BreadCrumb 
-    this.breadCrumbItems = [
-      { label: 'Apps' },
-      { label: 'Calendar', active: true }];
-
     // Event category
     this.category = category;
 
@@ -150,42 +160,5 @@ export class MonthlySchedulerComponent {
     this.submitted = false;
   }
 
-  /**
-   * Event click modal show
-   */
-  handleEventClick(clickInfo: EventClickArg) {
-    this.editEvent = clickInfo.event;
-    this.formEditData = this.formBuilder.group({
-      editTitle: clickInfo.event.title,
-      editCategory: clickInfo.event.classNames[0],
-    });
-    this.modalService.open(this.editmodalShow, { centered: true });
-  }
-
-  /**
-   * Events bind in calander
-   * @param events events
-   */
-  handleEvents(events: EventApi[]) {
-    this.currentEvents = events;
-  }
-
-  /**
-   * Close event modal
-   */
-  closeEventModal() {
-    this.formData = this.formBuilder.group({
-      title: '',
-      category: '',
-    });
-    this.modalService.dismissAll();
-  }
-
-  /**
-   * Event Data Get
-   */
-  get form() {
-    return this.formData.controls;
-  }
 
 }

@@ -45,11 +45,16 @@ export class TokensService {
     updateTokenStatus(data: any) {
         return this.httpClient.post(ApiService.updateTokenStatusDetailsURL, data);
     }
-    getAssignedTokenEmp(id: any){
+    getAssignedTokenEmp(id: any) {
         return this.httpClient.get(ApiService.getAssignedEmpTokenByIdURL + id);
     }
 
     updateDailyMarkAsRead(id: any) {
         return this.httpClient.get(ApiService.updateDailyWorkUnreadStatusURL + id);
     }
+
+    updateClearNotification(data: any) {
+        return this.httpClient.post(ApiService.updateTokenNotificationURL, data);
+    }
+
 }

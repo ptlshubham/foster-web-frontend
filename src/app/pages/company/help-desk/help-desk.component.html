@@ -1,0 +1,231 @@
+<!-- start page title -->
+<app-pagetitle title="Help Desk" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+<!-- end page title -->
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="p-3 card">
+                    <button type="button" class="btn btn-primary 100 waves-effect waves-light" data-bs-toggle="modal"
+                        data-bs-target="#composemodal" (click)="open(content)">
+                        Generate Ticket
+                    </button>
+                    <div class="mail-list mt-4">
+                        <a href="javascript:void(0);" [class.active]="activeTab === 'allTicket'"
+                            (click)="setActiveTab('allTicket')"><i class="mdi mdi-email-outline me-2"></i>All
+                            Ticket<span class="ms-1 float-end">0</span></a>
+                        <a href="javascript:void(0);" [class.active]="activeTab === 'pendingTicket'"
+                            (click)="setActiveTab('pendingTicket')"><i class="mdi mdi-account-clock me-2"></i>Pending
+                            Ticket<span class="ms-1 float-end">0</span></a>
+                        <a href="javascript:void(0);" [class.active]="activeTab === 'processingTicket'"
+                            (click)="setActiveTab('processingTicket')"><i
+                                class="mdi mdi-spin mdi-loading me-2"></i>Processing
+                                Ticket<span class="ms-1 float-end">0</span></a>
+                        <a href="javascript:void(0);" [class.active]="activeTab === 'completedTicket'"
+                            (click)="setActiveTab('completedTicket')"><i class="mdi mdi-check-all me-2"></i>Completed
+                            Ticket<span class="ms-1 float-end">0</span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 card">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="composemodalTitle">Generate Ticket</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <!-- <form [formGroup]="validationForm">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="mb-3">
+                                    <label for="choices-single-default" class="form-label font-size-13">Select
+                                        Client</label>
+                                    <ng-select [items]="clientList" bindLabel="name" formControlName="client"
+                                        [(ngModel)]="tokenModel.client" placeholder="Select Client"
+                                        (ngModelChange)="onClientChange($event)">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            {{item.country || 'Unnamed group'}}
+                                        </ng-template>
+                                    </ng-select>
+                                    <div *ngIf="f.client.touched && f.client.errors" class="invalid-feedback">
+                                        <span *ngIf="f.client.errors.required">This Field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="mb-3">
+                                    <label for="choices-multiple-default" class="form-label font-size-13 ">Select
+                                        Manager</label>
+                                    <div class="multi_default">
+                                        <ng-select [items]="managerList" [multiple]="true" bindLabel="name"
+                                            [(ngModel)]="tokenModel.managers" formControlName="manager"
+                                            placeholder="Select Manager">
+                                            <ng-template ng-optgroup-tmp let-item="item">
+                                                {{item.name || 'Unnamed group'}}
+                                            </ng-template>
+                                        </ng-select>
+                                        <div *ngIf="f.manager.touched && f.manager.errors" class="invalid-feedback">
+                                            <span *ngIf="f.manager.errors.required">This Field is
+                                                required.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="mb-3">
+                                    <label for="choices-multiple-default" class="form-label font-size-13 ">Select
+                                        Designer</label>
+                                    <div class="multi_default">
+                                        <ng-select [items]="designerList" [multiple]="true" bindLabel="name"
+                                            [(ngModel)]="tokenModel.designers" formControlName="designer"
+                                            placeholder="Select Designer">
+                                            <ng-template ng-optgroup-tmp let-item="item">
+                                                {{item.name || 'Unnamed group'}}
+                                            </ng-template>
+                                        </ng-select>
+                                        <div *ngIf="f.designer.touched && f.designer.errors" class="invalid-feedback">
+                                            <span *ngIf="f.designer.errors.required">This Field is
+                                                required.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="mb-3">
+                                    <label for="choices-single-default" class="form-label font-size-13">Select
+                                        Label</label>
+                                    <ng-select [items]="labelList" bindLabel="name" formControlName="label"
+                                        [(ngModel)]="tokenModel.label" placeholder="Select Label"
+                                        (change)="onLabelChange($event)">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            {{item.country || 'Unnamed group'}}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="mb-3">
+                                    <label for="example-date-input" class="form-label">Delivery Date</label>
+                                    <input class="form-control" type="date" placeholder="Select Delivery Date"
+                                        formControlName="deliverydate"
+                                        [ngClass]="{'is-invalid': f.deliverydate.touched && f.deliverydate.errors}"
+                                        [(ngModel)]="tokenModel.deliverydate">
+                                    <div *ngIf="f.deliverydate.touched && f.deliverydate.errors"
+                                        class="invalid-feedback">
+                                        <span *ngIf="f.deliverydate.errors.required">This Field is
+                                            required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div class="mb-3">
+                                    <label for="example-date-input" class="form-label">Created By</label>
+                                    <input class="form-control disabled-c" type="text" disabled placeholder="Created By"
+                                        [(ngModel)]="createdby" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group mb-3">
+                                <label>Title</label>
+                                <input type="text" class="form-control" placeholder="Enter Title"
+                                    formControlName="title" [(ngModel)]="tokenModel.title"
+                                    [ngClass]="{'is-invalid': f.title.touched && f.title.errors}">
+                                <div *ngIf="f.title.touched && f.title.errors" class="invalid-feedback">
+                                    <span *ngIf="f.title.errors.required">This Field is
+                                        required.</span>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>Description Details</label>
+                                <ckeditor [editor]="Editor" data="" [(ngModel)]="tokenModel.description"
+                                    formControlName="description"
+                                    [ngClass]="{'is-invalid': f.description.touched && f.description.errors}">
+                                </ckeditor>
+                                <div *ngIf="f.description.touched && f.description.errors" class="invalid-feedback">
+                                    <span *ngIf="f.description.errors.required">This Field is
+                                        required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-4">
+                                <div class="form-group mb-3">
+                                    <label>Upload Image</label>
+                                    <div class="avatar-upload">
+                                        <div class="avatar-edit">
+                                            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput
+                                                (change)="uploadFile($event)" [(ngModel)]="tokenModel.image"
+                                                [ngModelOptions]="{standalone: true}" />
+                                        </div>
+                                        <div class="avatar-preview">
+                                            <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 10px;">
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block"
+                                                (click)="fileInput.click()">Upload
+                                                Image</button>
+                                            <button type="submit" class="btn btn-danger btn-sm btn-block"
+                                                (click)="removeUploadedImage()">Remove
+                                                Image</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-4" *ngFor="let i of addMultiImg; let ind=index">
+                                <div class="form-group mb-3">
+                                    <label>Upload Image</label>
+                                    <div class="avatar-upload">
+                                        <div class="avatar-edit">
+                                            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg"
+                                                #multiFileInput (change)="uploadMultiFile($event,ind)"
+                                                [(ngModel)]="tokenModel.image" [ngModelOptions]="{standalone: true}" />
+                                        </div>
+                                        <div class="avatar-preview">
+                                            <div id="imagePreview"
+                                                [style.backgroundImage]="'url('+ i.multiImageUrl +')'">
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 10px;">
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block"
+                                                (click)="multiFileInput.click()">Upload
+                                                Image</button>
+                                            <button type="submit" class="btn btn-danger btn-sm btn-block"
+                                                (click)="removeUploadedMultiImage(ind)">Remove
+                                                Image</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="col-xl-1 col-lg-1 col-md-1 col-md-1 d-flex align-items-center justify-content-center">
+                                <div class="form-group mb-3">
+                                    <i class="bx bx-plus c-icon" (click)="addMultipleImage()"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </form> -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+        <!-- <button type="button" class="btn btn-primary" [disabled]="validationForm.invalid"
+            (click)="SaveTokendetails()">Submit <i class="fab fa-telegram-plane ms-1"></i></button> -->
+    </div>
+</ng-template>

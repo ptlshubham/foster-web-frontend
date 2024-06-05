@@ -66,6 +66,11 @@ export class CompanyDashboardComponent {
   title!: string;
   selectedMonth: string;
 
+  page = 1;
+  pageSize = 9;
+  collectionSize = 0;
+  paginateData: any = [];
+
   SelectedClient = this.tokendata.clientname || null;
   comapanyRole: any = localStorage.getItem('Role');
 
@@ -363,11 +368,17 @@ export class CompanyDashboardComponent {
 
     this.companyService.getTodoListDataById(localStorage.getItem('Eid')).subscribe((res: any) => {
       this.todoList = res;
-
+      for (let i = 0; i < this.todoList.length; i++) {
+        this.todoList[i].index = i + 1;
+      }
+      this.collectionSize = this.todoList.length;
+      this.getPagintaion();
     });
   }
 
-
+  getPagintaion() {
+    this.paginateData = this.todoList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  }
 
 
 }

@@ -28,6 +28,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { MonthlyWorkComponent } from './monthly-work/monthly-work.component';
 import { DailyWorkReportComponent } from './daily-work-report/daily-work-report.component';
 import { MonthlySchedulerComponent } from './monthly-scheduler/monthly-scheduler.component';
+import { HelpDeskComponent } from './help-desk/help-desk.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { MonthlySchedulerComponent } from './monthly-scheduler/monthly-scheduler
     MonthlyWorkComponent,
     DailyWorkReportComponent,
     MonthlySchedulerComponent,
+    HelpDeskComponent,
   ],
   imports: [
     CommonModule,
