@@ -381,6 +381,9 @@
                                             (click)="removeClientsDetails(s.id)">
                                     </span>
                                     <button type="button" class="btn btn-soft-primary waves-effect waves-light"
+                                        (click)="goToBulkUpload(openbulupload,s.id)" ngbTooltip="Upload Schedule"><i
+                                            class="bx bx-edit font-size-16 align-middle"></i></button>
+                                    <button type="button" class="btn btn-soft-primary waves-effect waves-light"
                                         ngbTooltip="View calendar" placement="top"
                                         (click)="extraLarge(exlargeModal,s)"><i
                                             class="bx bxs-calendar font-size-16 align-middle"></i></button>
@@ -428,3 +431,13 @@
     (click)="openUpdateClients(s)"><i
         class="bx bx-edit font-size-16 align-middle"></i></button> -->
 <!-- start page title -->
+
+<ng-template #openbulupload let-modal>
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close click')">
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-bulk-upload-scheduler [clientid]="selectedClientData.clientid"></app-bulk-upload-scheduler>
+    </div>
+</ng-template>

@@ -68,6 +68,7 @@ export class ApiService {
   public static updateDailyWorkByIdURL: string = ApiService.HOST_URL + '/admin/UpdateDailyWorkById';
   public static getALLDailyWorkURL: string = ApiService.HOST_URL + '/admin/GetALLDailyWork';
   public static updateDailyWorkUnreadStatusURL: string = ApiService.HOST_URL + '/admin/UpdateDailyWorkUnreadStatus/';
+  public static SaveBulkSchedulerDetailsURL: string = ApiService.HOST_URL + '/admin/SaveBulkSchedulerDetails/';
   public static updateTokenNotificationURL: string = ApiService.HOST_URL + '/admin/UpdateTokenNotification';
 
 

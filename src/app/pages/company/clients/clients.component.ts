@@ -11,6 +11,7 @@ import listPlugin from '@fullcalendar/list';
 import { category, calendarEvents, createEventId } from './data';
 import Swal from 'sweetalert2';
 import { Howl } from 'howler';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -75,6 +76,8 @@ export class ClientsComponent {
     private companyService: CompanyService,
     public toastr: ToastrService,
     private modalService: NgbModal,
+    private router: Router,
+
 
   ) { }
   ngOnInit(): void {
@@ -417,9 +420,10 @@ export class ClientsComponent {
     this.modalService.open(largeDataModal, { size: 'lg', windowClass: 'modal-holder', centered: true });
   }
 
-  extraLarge(exlargeModal: any, data: any) {
+  extraLarge(exlargeModal: any, data: any,) {
     this.selectedClientData = data;
     this.modalService.open(exlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
+
   }
 
   playSound() {
@@ -429,5 +433,12 @@ export class ClientsComponent {
     this.companyService.getClientDetailsById(id).subscribe((res: any) => {
       this.clientlist = res;
     })
+  }
+
+
+  goToBulkUpload(openbulupload: any, id: any) {
+    debugger;
+    this.selectedClientData.clientid = id;
+    this.modalService.open(openbulupload, { size: 'xl', windowClass: 'modal-holder', centered: true });
   }
 }

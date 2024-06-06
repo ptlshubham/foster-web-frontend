@@ -276,9 +276,8 @@ export class CompanyDashboardComponent {
       this.pendingDatatotal = res.filter((token: any) => token.status === 'Pending');
       this.processingDatatotal = res.filter((token: any) => token.status === 'Processing');
       this.completedDatatotal = res.filter((token: any) => token.status === 'Completed');
-
       this.CancelToken = res.filter((token: any) => token.status === 'Cancel');
-      this.Tokens.series.push(this.pendingDatatotal.length, this.processingDatatotal.length, this.completedDatatotal.length, this.CancelToken.length);
+      this.Tokens.series.push(this.pendingDatatotal.length, this.processingDatatotal.length, this.completedDatatotal.length);
       this.Tokens.labels.push('Pending', 'Processing', 'Completed');
     });
   }
