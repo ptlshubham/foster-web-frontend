@@ -29,6 +29,7 @@ import { MonthlyWorkComponent } from './monthly-work/monthly-work.component';
 import { DailyWorkReportComponent } from './daily-work-report/daily-work-report.component';
 import { MonthlySchedulerComponent } from './monthly-scheduler/monthly-scheduler.component';
 import { BulkUploadSchedulerComponent } from './bulk-upload-scheduler/bulk-upload-scheduler.component';
+import { HelpDeskComponent } from './help-desk/help-desk.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { BulkUploadSchedulerComponent } from './bulk-upload-scheduler/bulk-uploa
     DailyWorkReportComponent,
     MonthlySchedulerComponent,
     BulkUploadSchedulerComponent,
+    HelpDeskComponent,
   ],
   imports: [
     CommonModule,

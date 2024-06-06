@@ -62,6 +62,7 @@ export class MonthlyWorkComponent {
         if (!clientWorkSummary[clientId]) {
           clientWorkSummary[clientId] = {
             clientname: item.clientname,
+            logo: item.logo,
             totalWork: 0,
             totalCompleted: 0,
             totalPending: 0,
@@ -69,7 +70,7 @@ export class MonthlyWorkComponent {
         }
 
         clientWorkSummary[clientId].totalWork++;
-
+        debugger
         if (isCompleted) {
           clientWorkSummary[clientId].totalCompleted++;
         } else {

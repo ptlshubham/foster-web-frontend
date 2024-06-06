@@ -37,6 +37,7 @@ export class ClientPostSchedulerComponent implements OnInit {
     { name: 'Post' },
     { name: 'Reel' },
     { name: 'Story' },
+    { name: 'Festival' },
 
   ]
   constructor(
@@ -218,17 +219,36 @@ export class ClientPostSchedulerComponent implements OnInit {
     this.companyService.getAllSchedulerList(this.clientdata.id).subscribe((res: any) => {
       this.scheduleList = res;
       if (res && res.length > 0) {
-        this.calendarEvents = res.map((element: any) => ({
-          id: element.id,
-          title: element.title,
-          description: element.description,
-          start: new Date(element.date),
-          allDay: false
-        }));
+        this.calendarEvents = res.map((element: any) => {
+          let className = '';
+          switch (element.title) {
+            case 'Post':
+              className = 'bg-primary text-white';
+              break;
+            case 'Story':
+              className = 'bg-info text-white';
+              break;
+            case 'Reel':
+              className = 'bg-dark text-white';
+              break;
+            case 'Festival':
+              className = 'bg-warning text-white';
+              break;
+          }
+          return {
+            id: element.id,
+            title: element.title,
+            description: element.description,
+            start: new Date(element.date),
+            allDay: false,
+            className: className
+          };
+        });
         this.calendarOptions.events = [...this.calendarEvents]; // update events in calendarOptions
       }
     });
   }
+
   getAllDesigner() {
     this.companyService.getAllEmployeeDetailsData().subscribe((res: any) => {
       this.designerlist = res.filter((employee: any) => employee.role === 'Designer');

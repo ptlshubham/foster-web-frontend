@@ -113,7 +113,7 @@ option = {
           saveAsImage: { title: "Download Image" }
         }
       },
-    color: mixlinebarColors, //['#2ab57d', '#203154', '#fd625e'],
+    color: mixlinebarColors, //['#2ab57d', '#0e8f99', '#fd625e'],
     legend: {
         data:['Evaporation','Precipitation','Average temperature'],
         textStyle: {color: '#858d98'}
@@ -217,7 +217,7 @@ option = {
         data: ['Laptop','Tablet','Mobile','Others','Desktop'],
         textStyle: {color: '#858d98'}
     },
-    color: doughnutColors, //['#203154', '#ffbf53', '#fd625e', '#4ba6ef', '#2ab57d'],
+    color: doughnutColors, //['#0e8f99', '#ffbf53', '#fd625e', '#4ba6ef', '#2ab57d'],
     series: [
         {
             name:'Total sales',
@@ -274,7 +274,7 @@ option = {
         data: ['Laptop','Tablet','Mobile','Others','Desktop'],
         textStyle: {color: '#858d98'}
     },
-    color: pieColors, //['#fd625e', '#2ab57d', '#4ba6ef', '#ffbf53', '#203154'],
+    color: pieColors, //['#fd625e', '#2ab57d', '#4ba6ef', '#ffbf53', '#0e8f99'],
     series : [
         {
             name: 'Total sales',

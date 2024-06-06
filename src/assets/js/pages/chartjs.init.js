@@ -211,11 +211,11 @@ var lineChart = new Chart(isradarchart, {
             {
                 label: "Tablets",
                 backgroundColor: radarChartColors[2], //"rgba(81, 86, 190, 0.2)",
-                borderColor: radarChartColors[3], //"#203154",
-                pointBackgroundColor: radarChartColors[3], //"#203154",
+                borderColor: radarChartColors[3], //"#0e8f99",
+                pointBackgroundColor: radarChartColors[3], //"#0e8f99",
                 pointBorderColor: "#fff",
                 pointHoverBackgroundColor: "#fff",
-                pointHoverBorderColor: radarChartColors[3], //"#203154",
+                pointHoverBorderColor: radarChartColors[3], //"#0e8f99",
                 data: [28, 48, 40, 19, 96, 27, 100]
             }
         ]

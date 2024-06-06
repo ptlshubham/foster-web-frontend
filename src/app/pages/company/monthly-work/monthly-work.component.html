@@ -26,7 +26,8 @@
                                         ngbTooltip="Total Completed Work" placement="top">{{c.totalCompleted}}</span>
                                 </div>
                                 <div class="col-6 text-center">
-                                    <img src="http://localhost:9000{{c.logo}}" alt="" class="rounded avatar-lg">
+                                    <img src="https://api.cesociety.in{{c.logo}}" alt="logo" width="90" height="90"
+                                        class="rounded">
                                 </div>
                             </div>
                         </div>
@@ -38,7 +39,7 @@
 </div>
 <ng-template #exlargeModal let-modal>
     <div class="modal-header">
-        <h5 class="modal-title mt-0">Schedule</h5>
+        <h5 class="modal-title mt-0">Monthly Client Wise Details</h5>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close click')">
         </button>
     </div>

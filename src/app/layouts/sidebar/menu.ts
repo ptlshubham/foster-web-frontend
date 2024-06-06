@@ -25,7 +25,7 @@ export const comapnyAdmin: MenuItem[] = [
     },
     {
         id: 5,
-        label: 'Generate Tokens',
+        label: 'Tokens',
         icon: 'mdi mdi-clipboard-list-outline',
         link: '/request-tokens',
     },
@@ -58,6 +58,12 @@ export const comapnyAdmin: MenuItem[] = [
         label: 'Daily Work Report',
         icon: 'mdi mdi-file-chart-outline',
         link: '/daily-report',
+    },
+    {
+        id: 10,
+        label: 'Help Desk',
+        icon: 'mdi mdi-help-circle-outline',
+        link: '/help-desk',
     }
 ];
 export const Employee: MenuItem[] = [
@@ -68,7 +74,7 @@ export const Employee: MenuItem[] = [
     },
     {
         id: 2,
-        label: 'Generate Tokens',
+        label: 'Tokens',
         icon: 'mdi mdi-clipboard-list-outline',
         link: '/request-tokens',
     },
@@ -90,7 +96,13 @@ export const Employee: MenuItem[] = [
     //     label: 'Posting',
     //     icon: 'mdi mdi-clipboard-list-outline',
     //     link: '/posting',
-    // }
+    // },
+    {
+        id: 6,
+        label: 'Help Desk',
+        icon: 'mdi mdi-help-circle-outline',
+        link: '/help-desk',
+    }
 
 ];
 
@@ -108,7 +120,7 @@ export const Manger: MenuItem[] = [
     },
     {
         id: 3,
-        label: 'Generate Tokens',
+        label: 'Tokens',
         icon: 'mdi mdi-clipboard-list-outline',
         link: '/request-tokens',
     },
@@ -130,6 +142,12 @@ export const Manger: MenuItem[] = [
     //     label: 'Posting',
     //     icon: 'mdi mdi-clipboard-list-outline',
     //     link: '/posting',
-    // }
+    // },
+    {
+        id: 7,
+        label: 'Help Desk',
+        icon: 'mdi mdi-help-circle-outline',
+        link: '/help-desk',
+    }
 
 ];

@@ -420,26 +420,19 @@
                 <h4 class="card-title mb-0">Todo List</h4>
             </div>
             <div class="card-body">
-                <div class="table-responsive scrollable-table">
-                    <table class="table table-striped mb-0">
-                        <tbody>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th class="text-center">List</th>
-                                <th class="text-center ">Date</th>
-                            </tr>
-                            <tr *ngFor="let s of todoList; let i = index">
-                                <td class="text-center">{{ i + 1 }}</td>
-                                <td class="text-center">
-                                    <div class="d-flex flex-column">
-                                        <div class="text-center overflow-hidden"><b>{{ s.title }}</b></div>
-                                        <div class="text-center overflow-hidden">{{ s.description }}</div>
-                                    </div>
-                                </td>
-                                <td class="text-center">{{ s.date | date:'dd/MM/yyyy' }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <ul class="list-unstyled fw-medium px-2">
+                    <li *ngFor="let s of paginateData; let i = index" [ngClass]="s.category"
+                        class="text-white p-1 mb-1"><a href="javascript: void(0);" class="d-block text-white"><span
+                                class="me-1 float-start text-white">{{ s.index}}</span> {{
+                            s.title }}<span class="ms-1 float-end text-white">{{
+                                s.date | date:'dd/MM/yyyy' }}</span></a>
+                    </li>
+                </ul>
+                <div class="row">
+                    <ngb-pagination [collectionSize]="collectionSize" [pageSize]="pageSize" [(page)]="page"
+                        [maxSize]="3" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                        (pageChange)="getPagintaion();" aria-label="Default pagination"
+                        class="d-flex justify-content-end pagination-rounded-flat pagination-success"></ngb-pagination>
                 </div>
             </div>
         </div>

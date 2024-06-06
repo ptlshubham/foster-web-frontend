@@ -9,6 +9,7 @@ import { TokensService } from 'src/app/core/services/tokens.service';
 
 import { LAYOUT_MODE } from "../layouts.model";
 import { CompanyService } from 'src/app/core/services/company.service';
+import { Subscription, forkJoin, map } from 'rxjs';
 
 @Component({
   selector: 'app-topbar',
@@ -36,6 +37,14 @@ export class TopbarComponent implements OnInit {
   totalRecords = 0;
   staffModel: any = {}
   profile: any = localStorage.getItem('profile')
+  eid: any = localStorage.getItem('Eid');
+  sound: any = new Howl({
+    src: ['assets/audio/notification.mp3']
+  });
+  isOpen: boolean = false;
+
+  private intervalId: any;
+  private subscription: Subscription = new Subscription();
   constructor(
     private router: Router,
     public languageService: LanguageService,
@@ -46,7 +55,9 @@ export class TopbarComponent implements OnInit {
     private companyService: CompanyService
 
 
-  ) { }
+  ) {
+    this.getTokenByEmployee(false);
+  }
 
   /**
    * Language Listing
@@ -68,6 +79,9 @@ export class TopbarComponent implements OnInit {
     this.adminName = localStorage.getItem('Name');
     this.company = localStorage.getItem('Company');
     this.layoutMode = LAYOUT_MODE;
+    this.intervalId = setInterval(() => {
+      this.getTokenByEmployee(false);
+    }, 180000); // 30000 milliseconds = 30 seconds
 
     this.element = document.documentElement;
     // Cookies wise Language set
@@ -80,7 +94,48 @@ export class TopbarComponent implements OnInit {
       this.flagvalue = val.map(element => element.flag);
     }
   }
-
+  ngOnDestroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+  getTokenByEmployee(obj: any) {
+    this.isOpen = obj;
+    this.subscription.add(
+      this.tokensService.getTokenByEmpIdData(this.eid).subscribe((res: any) => {
+        const tokenRequests = res.map((element: any) =>
+          this.tokensService.getAssignedTokenEmp(element.id).pipe(
+            map((data: any) => {
+              element.assignedEmployee = data;
+              return element;
+            })
+          )
+        );
+        forkJoin(tokenRequests).subscribe((updatedTokens: any) => {
+          this.tokenData = [];
+          updatedTokens.forEach((element: any) => {
+            element.assignedEmployee.forEach((employee: any) => {
+              if (employee.empid == this.eid && employee.isnotify == true) {
+                this.tokenData.push(element);
+              }
+            });
+          });
+          debugger
+          if (this.tokenData.length > 0 && this.isOpen == false) {
+            this.sound.play();
+          }
+        });
+      })
+    );
+  }
+  clearAllNotification() {
+    this.tokensService.updateClearNotification(this.tokenData).subscribe((res: any) => {
+      this.getTokenByEmployee(this.isOpen = false);
+    })
+  }
   /**
    * Language Value Set
    */
@@ -122,25 +177,6 @@ export class TopbarComponent implements OnInit {
     localStorage.clear();
     this.router.navigate(['/account/login']);
   }
-  getAllToken() {
-    this.tokensService.getAllTokenData().subscribe((res: any) => {
-      res.forEach((element: any, index: number) => {
-        if (res.length > 0) {
-          this.companyService.getAssignedEmpDetailsById(element.clientid).subscribe((data: any) => {
-            res[index].assignedDesigners = data.filter((employee: any) => employee.role === 'Designer');
-            res[index].assignedManagers = data.filter((employee: any) => employee.role === 'Manager');
 
-          })
-        }
-      });
-      this.tokenData = res;
-      this.emailData = this.tokenData;
-      this.totalRecords = this.tokenData.length;
-      for (let i = 0; i < this.tokenData.length; i++) {
-        this.tokenData[i].index = i + 1;
-      }
-    })
-  }
-  openTokenEmailDetails() { }
 
 }
