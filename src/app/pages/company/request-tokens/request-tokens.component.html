@@ -123,6 +123,11 @@
                             @for (e of paginateData | slice:0:20; track $index) {
                             <tr class="unread" [ngClass]=" { 'unread' : e.unread==true }">
                                 <td class="text-left">{{e.index}}</td>
+                                <td class="text-center" (click)="openTokenEmailDetails(e)">
+                                    <span *ngIf="isDailyOpen"
+                                        [ngbTooltip]="e.date | date: 'MMM d, y, h:mm:ss a'">{{e.date | date:
+                                        'MMM d'}}</span>
+                                </td>
                                 <td class="text-center">
                                     <!-- <span class="checkbox-wrapper-mail" *ngIf="!isDailyOpen">
                                         <input type="checkbox" id="chk-{{ $index}}" style="height: 18px;width: 18px;"
@@ -201,9 +206,6 @@
                                         [ngbTooltip]="e.createddate | date: 'MMM d, y, h:mm:ss a'">{{e.createddate
                                         |
                                         date:
-                                        'MMM d'}}</span>
-                                    <span *ngIf="isDailyOpen"
-                                        [ngbTooltip]="e.date | date: 'MMM d, y, h:mm:ss a'">{{e.date | date:
                                         'MMM d'}}</span>
                                 </td>
                             </tr>}

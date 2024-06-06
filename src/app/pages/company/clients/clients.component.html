@@ -380,18 +380,16 @@
                                         <input type="checkbox" class="form-check-input"
                                             (click)="removeClientsDetails(s.id)">
                                     </span>
-                                    <button type="button" class="btn btn-soft-primary waves-effect waves-light"
-                                        (click)="goToBulkUpload(openbulupload,s.id)" ngbTooltip="Upload Schedule"><i
-                                            class="bx bx-edit font-size-16 align-middle"></i></button>
+
                                     <button type="button" class="btn btn-soft-primary waves-effect waves-light"
                                         ngbTooltip="View calendar" placement="top"
                                         (click)="extraLarge(exlargeModal,s)"><i
                                             class="bx bxs-calendar font-size-16 align-middle"></i></button>
                                     <button type="button" class="btn btn-soft-primary waves-effect waves-light"
-                                        (click)="openUpdateClients(s)"><i
-                                            class="bx bx-edit font-size-16 align-middle"></i></button>
+                                        (click)="goToBulkUpload(openbulupload,s.id)" ngbTooltip="Upload Schedule"><i
+                                            class="mdi mdi-file-excel-outline font-size-16 align-middle"></i></button>
                                     <button type="button" class="btn btn-soft-primary waves-effect waves-light"
-                                        (click)="playSound()"><i
+                                        (click)="openUpdateClients(s)"><i
                                             class="bx bx-edit font-size-16 align-middle"></i></button>
                                 </td>
                             </tr>
@@ -421,19 +419,9 @@
     </div>
 </ng-template>
 
-<!-- <td class="text-end">
-    <div class="d-flex justify-content-end gap-1">
-<td class="form-check form-switch form-switch-md mb-3 align-items-center" dir="ltr">
-    <input type="checkbox" class="form-check-input"
-        (click)="removeClientsDetails(s.id)">
-</td>
-<button type="button" class="btn btn-soft-primary waves-effect waves-light"
-    (click)="openUpdateClients(s)"><i
-        class="bx bx-edit font-size-16 align-middle"></i></button> -->
-<!-- start page title -->
-
 <ng-template #openbulupload let-modal>
     <div class="modal-header">
+        <h5 class="card-title justify-content-start">Bulk Schedule Uploader</h5>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close click')">
         </button>
     </div>

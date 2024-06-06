@@ -10,7 +10,6 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { category, calendarEvents, createEventId } from './data';
 import Swal from 'sweetalert2';
-import { Howl } from 'howler';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-clients',
@@ -67,9 +66,6 @@ export class ClientsComponent {
   formData!: UntypedFormGroup;
   filterClientList: any = [];
   selectedClientData: any = {};
-  sound: any = new Howl({
-    src: ['assets/audio/notification.mp3']
-  });
   roleWiseData: any = [];
   constructor(
     public formBuilder: UntypedFormBuilder,
@@ -425,10 +421,6 @@ export class ClientsComponent {
     this.modalService.open(exlargeModal, { size: 'xl', windowClass: 'modal-holder', centered: true });
 
   }
-
-  playSound() {
-    this.sound.play();
-  }
   getAllClientDetails(id: any) {
     this.companyService.getClientDetailsById(id).subscribe((res: any) => {
       this.clientlist = res;
@@ -437,7 +429,6 @@ export class ClientsComponent {
 
 
   goToBulkUpload(openbulupload: any, id: any) {
-    debugger;
     this.selectedClientData.clientid = id;
     this.modalService.open(openbulupload, { size: 'xl', windowClass: 'modal-holder', centered: true });
   }

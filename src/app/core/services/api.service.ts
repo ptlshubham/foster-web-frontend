@@ -70,13 +70,13 @@ export class ApiService {
   public static updateDailyWorkUnreadStatusURL: string = ApiService.HOST_URL + '/admin/UpdateDailyWorkUnreadStatus/';
   public static SaveBulkSchedulerDetailsURL: string = ApiService.HOST_URL + '/admin/SaveBulkSchedulerDetails/';
   public static updateTokenNotificationURL: string = ApiService.HOST_URL + '/admin/UpdateTokenNotification';
+  public static UpdateEmployeeLogoURL: string = ApiService.HOST_URL + '/admin/UpdateEmployeeLogo';
 
 
 
 
   //Cashfree APIS
   public static createCashfreeOrderURL: string = ApiService.HOST_URL + '/cashfree/createCashfreeOrder';
-  public static UpdateEmployeeLogoURL: string = ApiService.HOST_URL + '/admin/UpdateEmployeeLogo';
 
 
 
