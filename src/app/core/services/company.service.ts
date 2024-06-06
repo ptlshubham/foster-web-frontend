@@ -28,9 +28,6 @@ export class CompanyService {
 
         return this.http.post(ApiService.removeEmployeeDetailsByIdURL, data);
     }
-
-
-
     SaveClientImage(data: any) {
         return this.http.post(ApiService.SaveClientImageURL, data);
     }
@@ -50,8 +47,6 @@ export class CompanyService {
 
         return this.http.post(ApiService.updateClientDetailsByIDURL, data);
     }
-
-
     ChackForPassword(data: any) {
 
         return this.http.post(ApiService.ChackForPasswordURL, data);
@@ -72,9 +67,6 @@ export class CompanyService {
     getClientDetailsById(id: any) {
         return this.http.get(ApiService.GetClientDetailsByIdURL + id);
     }
-
-
-
     SaveTodoDetails(data: any): Observable<any> {
         return this.http.post(ApiService.saveTodoListDetailsURL, data);
     }
@@ -90,8 +82,6 @@ export class CompanyService {
     UpdateEmployeeLogo(admin: any): Observable<any> {
         return this.http.post<any>(ApiService.UpdateEmployeeLogoURL, admin);
     }
-
-
     SaveSchedulerDetails(data: any): Observable<any> {
         return this.http.post(ApiService.saveSchedulerDetailsURL, data);
     }
@@ -104,13 +94,14 @@ export class CompanyService {
     updateSchedulerById(data: any) {
         return this.http.post(ApiService.updateSchedulerByIdURL, data);
     }
-
-
     updateDailyById(data: any) {
         return this.http.post(ApiService.updateDailyWorkByIdURL, data);
     }
     getAllDailyList(): Observable<any> {
         return this.http.get(ApiService.getALLDailyWorkURL);
+    }
+    saveBulkScheduleDetails(data: any) {
+        return this.http.post(ApiService.SaveBulkSchedulerDetailsURL, data);
     }
 
 }

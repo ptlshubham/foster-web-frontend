@@ -9,6 +9,7 @@ import { AttendanceComponent } from './attendance/attendance.component';
 import { PostingComponent } from './posting/posting.component';
 import { MonthlyWorkComponent } from './monthly-work/monthly-work.component';
 import { DailyWorkReportComponent } from './daily-work-report/daily-work-report.component';
+import { BulkUploadSchedulerComponent } from './bulk-upload-scheduler/bulk-upload-scheduler.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'daily-report',
     component: DailyWorkReportComponent
+  },
+  {
+    path: 'bulk-uploadFile',
+    component: BulkUploadSchedulerComponent
   }
 
 ];
