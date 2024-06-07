@@ -1,0 +1,157 @@
+<div class="row">
+    <!-- Left sidebar -->
+    <div class="col-lg-3">
+        <div class="p-3 card">
+            <div class="mail-list mt-4">
+                <a href="javascript:void(0);" [class.active]="activeTab === 'allTokens'"
+                    (click)="setActiveTab('allTokens')"><i class="mdi mdi-email-outline me-2"></i>All Tokens<span
+                        class="ms-1 float-end">{{tokenData.length}}</span></a>
+                <a href="javascript:void(0);" [class.active]="activeTab === 'assignPendingToken'"
+                    (click)="setActiveTab('assignPendingToken')"><i class="mdi mdi-account-clock me-2"></i>Assign
+                    Pending
+                    Tokens<span class="ms-1 float-end">{{assignPendingData.length}}</span></a>
+                <a href="javascript:void(0);" [class.active]="activeTab === 'assignCompletedTokens'"
+                    (click)="setActiveTab('assignCompletedTokens')"><i class="mdi mdi-check-all me-2"></i>Assign
+                    Completed
+                    Tokens<span class="ms-1 float-end">{{assignCompletedData.length}}</span></a>
+            </div>
+        </div>
+    </div>
+    <!-- End Left sidebar -->
+
+    <!-- Right Sidebar -->
+    <div class="col-lg-9" *ngIf="!isMailOpen">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-left">#</th>
+                                <th class="text-center">Institute Name</th>
+                                <th class="text-center">Title</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Created By</th>
+                                <th class="text-center">Expected Date</th>
+                                <th class="text-center">Created Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (e of paginateData | slice:0:20; track $index) {
+                            <tr class="unread" [ngClass]=" { 'unread' : e.unread==true }" (click)="openEmailTokens(e)">
+                                <td class="text-left">{{e.index}}</td>
+                                <td class="text-center">{{e.institutename}}
+                                </td>
+                                <td class="text-center">{{e.title}}</td>
+                                <td class="text-center">
+                                    <span class="badge bg-warning text-white" *ngIf="e.status=='Pending'"
+                                        ngbTooltip="Token Pending" placement="top">Pending</span>
+                                    <span class="badge bg-primary text-white" *ngIf="e.status=='Processing'"
+                                        ngbTooltip="Token Processing" placement="top">Processing</span>
+                                    <span class="badge bg-success text-white" *ngIf="e.status=='Completed'"
+                                        ngbTooltip="Token Completed" placement="top">Completed</span>
+                                </td>
+                                <td class="text-center"><span class="badge bg-primary text-white"
+                                        ngbTooltip="Token Pending" placement="top">{{e.createdby}}</span></td>
+                                <td class="text-center">{{e.expecteddate |date: 'MMM d, y'}}</td>
+                                <td class="text-center">
+                                    {{e.createddate | date: 'MMM d, y, h:mm:ss a'}}</td>
+                            </tr>}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mt-4">
+                    <ngb-pagination [collectionSize]="totalRecords" [pageSize]="pageSize" [(page)]="page" [maxSize]="5"
+                        [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getPagintaion();"
+                        aria-label="Default pagination"
+                        class="d-flex justify-content-end pagination-rounded-flat pagination-primbg-primary "></ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9 mb-3" *ngIf="isMailOpen">
+        <div class="card">
+            <div class="btn-toolbar p-3" role="toolbar">
+                <div class="btn-group me-2 mb-2 mb-sm-0">
+                    <button type="button" class="btn btn-danger waves-light waves-effect" (click)="backToToken()"><i
+                            class="fa fa-arrow-left"></i></button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="flex-shrink-0 me-3">
+                        <td class="text-center">
+                            <img src="http://localhost:9000{{tokenModel.clientlogo}}" alt=""
+                                class="rounded-circle avatar-sm">
+                        </td>
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <h5 class="font-size-14 mb-1">{{tokenModel.institutename}}</h5>
+                        <div *ngIf="tokenModel.isassign">
+                            <span class="me-1">Manager: </span>
+                            <span class="badge bg-primary me-1" *ngFor="let m of tokenModel.assignedManagers">{{
+                                m.name
+                                }}</span>
+                            <br>
+                            <span class="me-1">Designers:</span>
+                            <span class="badge bg-primary me-1" *ngFor="let m of tokenModel.assignedDesigners">{{
+                                m.name
+                                }}</span>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="font-size-16 mb-4">{{tokenModel.title}}</h4>
+                <div class="mt-4" [innerHtml]='tokenModel.description' [class.table-inside-accordion]="true">
+                </div>
+                <div class="row">
+                    <div class="col-xl-2 col-6" *ngIf="tokenModel.image!=undefined && tokenModel.image!='undefined'">
+                        <div class="card">
+                            <img class="card-img-top img-fluid" [src]="'http://localhost:9000' +tokenModel.image"
+                                alt="Token Image">
+                            <div class="py-2 text-center">
+                                <a href="javascript:void(0);"
+                                    (click)="downloadImage('http://localhost:9000' +tokenModel.image)"
+                                    class="fw-medium">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-6" *ngFor="let s of multiTokenImgData;let i=index">
+                        <div class="card">
+                            <img class="card-img-top img-fluid" [src]="'http://localhost:9000' + s.image"
+                                alt="Token Image">
+                            <div class="py-2 text-center">
+                                <a href="javascript:void(0);" (click)="downloadImage('http://localhost:9000' + s.image)"
+                                    class="fw-medium">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr *ngIf="!tokenModel.isassign">
+                <div class="row mb-5 pb-5" *ngIf="!tokenModel.isassign">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mb-5">
+                            <label for="choices-multiple-default" class="form-label font-size-13 ">Select
+                                Designer</label>
+                            <div class="multi_default">
+                                <ng-select [items]="designerList" [multiple]="true" bindLabel="name"
+                                    [(ngModel)]="tokenModel.designers" placeholder="Select Designer">
+                                    <ng-template ng-optgroup-tmp let-item="item">
+                                        {{item.name || 'Unnamed group'}}
+                                    </ng-template>
+                                </ng-select>
+                                <!-- <div *ngIf="f.designer.touched && f.designer.errors" class="invalid-feedback">
+                                    <span *ngIf="f.designer.errors.required">This Field is
+                                        required.</span>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                        <button type="submit" class="btn btn-primary mt-4" (click)="convertCesToToken()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

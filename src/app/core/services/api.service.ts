@@ -5,8 +5,8 @@ declare var $: any;
   providedIn: 'root'
 })
 export class ApiService {
-  // public static HOST_URL: string = "http://localhost:9000";
-  public static HOST_URL: string = "https://api.cesociety.in";
+  public static HOST_URL: string = "http://localhost:9000";
+  // public static HOST_URL: string = "https://api.cesociety.in";
 
   constructor(
   ) { }
@@ -72,8 +72,12 @@ export class ApiService {
   public static updateTokenNotificationURL: string = ApiService.HOST_URL + '/admin/UpdateTokenNotification';
   public static UpdateEmployeeLogoURL: string = ApiService.HOST_URL + '/admin/UpdateEmployeeLogo';
 
+  // CES TOKENS
+  public static getCESTokenImageURL: string = ApiService.HOST_URL + '/admin/GetCESTokenImage/';
+  public static getALLCESTokenDataURL: string = ApiService.HOST_URL + '/admin/GetALLCESTokenData';
+  public static saveConvertCesToTokenDetailsURL: string = ApiService.HOST_URL + '/admin/SaveConvertCesToTokenDetails';
 
-
+  
 
   //Cashfree APIS
   public static createCashfreeOrderURL: string = ApiService.HOST_URL + '/cashfree/createCashfreeOrder';

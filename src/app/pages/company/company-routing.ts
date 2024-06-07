@@ -9,8 +9,8 @@ import { AttendanceComponent } from './attendance/attendance.component';
 import { PostingComponent } from './posting/posting.component';
 import { MonthlyWorkComponent } from './monthly-work/monthly-work.component';
 import { DailyWorkReportComponent } from './daily-work-report/daily-work-report.component';
-import { BulkUploadSchedulerComponent } from './bulk-upload-scheduler/bulk-upload-scheduler.component';
 import { HelpDeskComponent } from './help-desk/help-desk.component';
+import { CesDesignTokenComponent } from './ces-design-token/ces-design-token.component';
 
 const routes: Routes = [
   {
@@ -52,6 +52,10 @@ const routes: Routes = [
   {
     path: 'help-desk',
     component: HelpDeskComponent
+  },
+  {
+    path: 'ces-token',
+    component: CesDesignTokenComponent
   }
 
 ];
