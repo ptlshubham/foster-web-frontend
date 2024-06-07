@@ -6,6 +6,7 @@ import { EventService } from '../../core/services/event.service';
 import { LanguageService } from '../../core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TokensService } from 'src/app/core/services/tokens.service';
+import { Howl } from 'howler';
 
 import { LAYOUT_MODE } from "../layouts.model";
 import { CompanyService } from 'src/app/core/services/company.service';

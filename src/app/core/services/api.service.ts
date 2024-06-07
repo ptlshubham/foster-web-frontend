@@ -77,13 +77,17 @@ export class ApiService {
 
 
 
+  public static UpdateEmployeeLogoURL: string = ApiService.HOST_URL + '/admin/UpdateEmployeeLogo';
 
+  // CES TOKENS
+  public static getCESTokenImageURL: string = ApiService.HOST_URL + '/admin/GetCESTokenImage/';
+  public static getALLCESTokenDataURL: string = ApiService.HOST_URL + '/admin/GetALLCESTokenData';
+  public static saveConvertCesToTokenDetailsURL: string = ApiService.HOST_URL + '/admin/SaveConvertCesToTokenDetails';
 
 
 
   //Cashfree APIS
   public static createCashfreeOrderURL: string = ApiService.HOST_URL + '/cashfree/createCashfreeOrder';
-  public static UpdateEmployeeLogoURL: string = ApiService.HOST_URL + '/admin/UpdateEmployeeLogo';
 
 
 

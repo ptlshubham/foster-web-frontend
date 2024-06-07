@@ -30,6 +30,7 @@ import { DailyWorkReportComponent } from './daily-work-report/daily-work-report.
 import { MonthlySchedulerComponent } from './monthly-scheduler/monthly-scheduler.component';
 import { BulkUploadSchedulerComponent } from './bulk-upload-scheduler/bulk-upload-scheduler.component';
 import { HelpDeskComponent } from './help-desk/help-desk.component';
+import { CesDesignTokenComponent } from './ces-design-token/ces-design-token.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { HelpDeskComponent } from './help-desk/help-desk.component';
     MonthlySchedulerComponent,
     BulkUploadSchedulerComponent,
     HelpDeskComponent,
+    CesDesignTokenComponent,
   ],
   imports: [
     CommonModule,

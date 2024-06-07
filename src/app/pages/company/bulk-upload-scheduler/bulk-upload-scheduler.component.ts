@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import ls from 'localstorage-slim';
 import { ToastrService } from 'ngx-toastr';
 import { CompanyService } from 'src/app/core/services/company.service';
 
@@ -11,27 +10,34 @@ type AOA = any[][];
   templateUrl: './bulk-upload-scheduler.component.html',
   styleUrl: './bulk-upload-scheduler.component.scss'
 })
-export class BulkUploadSchedulerComponent {
+export class BulkUploadSchedulerComponent implements OnInit {
   data: AOA = [];
   wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
   fileName: string = 'SheetJS.xlsx';
   uploadSchedule: any = [];
   bulkUploadedSchedule: any = [];
+  employeeData: any = [];
   @Input() clientid: any;
-
-  ngOnInit(): void {
-    this.clientid
-    debugger
-  }
 
   constructor(
     private router: Router,
     public toastr: ToastrService,
     private companyService: CompanyService,
-  ) { }
+  ) {
+    this.getStaffDetails();
+  }
 
+  ngOnInit(): void {
+    this.clientid
+  }
   backToTable() {
     this.router.navigate(['/clients']);
+  }
+  getStaffDetails() {
+    this.companyService.getEmployeeDetailsData().subscribe((res: any) => {
+      this.employeeData = res;
+      debugger
+    })
   }
   onFileChange(evt: any) {
     /* wire up file reader */
@@ -51,7 +57,7 @@ export class BulkUploadSchedulerComponent {
       this.data = <AOA>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
       console.log("data:", this.data);
       this.uploadSchedule = this.data;
-      this.toastr.success('File Uploaded Successfully', 'Uploaded', {
+      this.toastr.success('File uploaded Successfully', 'Success', {
         timeOut: 3000,
       });
       this.saveBulkSchedule();
@@ -67,23 +73,50 @@ export class BulkUploadSchedulerComponent {
   }
 
   saveBulkSchedule() {
-    debugger
     this.bulkUploadedSchedule = [];
     this.uploadSchedule
     for (let i = 1; i < this.uploadSchedule.length; i++) {
-      // const excelDate = this.uploadSchedule[i][3];
-      // // Excel's date system starts from 1900-01-01, but 1900 is treated as a leap year by mistake
-      // const date = new Date(Math.round((excelDate - 25569) * 86400 * 1000));
-      // const formattedDate = date.toISOString().slice(0, 10); // Extract YYYY-MM-DD from ISO string
-      let data = {
-        clientid: this.clientid,
-        managerid: this.uploadSchedule[i][1],
-        designerid: this.uploadSchedule[i][2],
-        date: this.uploadSchedule[i][3],
-        title: this.uploadSchedule[i][4],
-        description: this.uploadSchedule[i][5],
+      let managerName = this.uploadSchedule[i][0].toLowerCase(); // Convert manager name to lowercase
+      let designerName = this.uploadSchedule[i][1].toLowerCase(); // Convert designer name to lowercase
+      let managerId = null;
+      let designerId = null;
+
+      // Find the manager's ID based on their lowercase name
+      for (let j = 0; j < this.employeeData.length; j++) {
+        if (this.employeeData[j].name.toLowerCase() === managerName) {
+          managerId = this.employeeData[j].id;
+        }
+        if (this.employeeData[j].name.toLowerCase() === designerName) {
+          designerId = this.employeeData[j].id;
+        }
+        if (managerId && designerId) {
+          break; // Exit the loop once both IDs are found
+        }
       }
-      this.bulkUploadedSchedule.push(data);
+
+      if (managerId && designerId) {
+        let excelDate = this.uploadSchedule[i][2];
+        let jsDate = new Date((excelDate - (25567 + 1)) * 86400 * 1000 - (1 * 86400 * 1000)); // Convert Excel date to JavaScript date and subtract 1 day
+
+        let year = jsDate.getFullYear();
+        let month = String(jsDate.getMonth() + 1).padStart(2, '0');
+        let day = String(jsDate.getDate()).padStart(2, '0');
+
+        let formattedDate = `${year}-${month}-${day}`;
+
+        let data = {
+          managerid: managerId,
+          designerid: designerId,
+          date: formattedDate,
+          title: this.uploadSchedule[i][3],
+          description: this.uploadSchedule[i][4],
+          clientid: this.clientid,
+        }
+
+        this.bulkUploadedSchedule.push(data);
+      } else {
+        console.log(`Manager ID or Designer ID not found for names: ${managerName}, ${designerName}`);
+      }
     }
     this.bulkUploadedSchedule
     debugger
@@ -124,15 +157,4 @@ export class BulkUploadSchedulerComponent {
     }
 
   }
-  // export(): void {
-  //   /* generate worksheet */
-  //   const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(this.data);
-
-  //   /* generate workbook and add the worksheet */
-  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-  //   /* save to file */
-  //   XLSX.writeFile(wb, this.fileName);
-  // }
 }

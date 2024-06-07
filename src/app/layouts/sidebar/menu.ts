@@ -30,6 +30,12 @@ export const comapnyAdmin: MenuItem[] = [
         link: '/request-tokens',
     },
     {
+        id: 11,
+        label: 'CES Design Token',
+        icon: 'mdi mdi-message-image',
+        link: '/ces-token',
+    },
+    {
         id: 6,
         label: 'Todo-List',
         icon: 'mdi mdi-clipboard-list-outline',
@@ -113,7 +119,7 @@ export const Employee: MenuItem[] = [
 
 ];
 
-export const Manger: MenuItem[] = [
+export const Manager: MenuItem[] = [
     {
         id: 1,
         label: 'MENUITEMS.MENU.TEXT',
@@ -132,12 +138,17 @@ export const Manger: MenuItem[] = [
         link: '/request-tokens',
     },
     {
+        id: 8,
+        label: 'CES Design Token',
+        icon: 'mdi mdi-message-image',
+        link: '/ces-token',
+    },
+    {
         id: 4,
         label: 'Client List',
         icon: 'mdi mdi-account-multiple-outline',
         link: '/clients',
     },
-
     {
         id: 5,
         label: 'Todo-List',

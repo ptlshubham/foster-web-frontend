@@ -66,4 +66,17 @@ export class TokensService {
         return this.httpClient.post(ApiService.UpdateHelpTokenStatusDetailsURL, data);
     }
 
+    // CES Tokens
+
+    getAllCESTokenData(){
+        return this.httpClient.get(ApiService.getALLCESTokenDataURL);
+
+    }
+    getCESMultiTokenImageData(id: any) {
+        return this.httpClient.get(ApiService.getCESTokenImageURL + id);
+    }
+    
+    SaveConvertCesTokendetails(admin: any): Observable<any> {
+        return this.httpClient.post<any>(ApiService.saveConvertCesToTokenDetailsURL, admin);
+    }
 }

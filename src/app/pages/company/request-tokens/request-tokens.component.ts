@@ -11,7 +11,7 @@ import { CompanyService } from 'src/app/core/services/company.service';
   selector: 'app-request-tokens',
   templateUrl: './request-tokens.component.html',
   styleUrl: './request-tokens.component.scss',
-  encapsulation: ViewEncapsulation.None // 
+  encapsulation: ViewEncapsulation.None
 })
 export class RequestTokensComponent {
   // bread crumb items
@@ -280,7 +280,7 @@ export class RequestTokensComponent {
       if (this.tokenModel.description == undefined) {
         this.tokenModel.description = null;
       }
-      this.tokensService.SaveTokendetails(this.tokenModel).subscribe((res: any) => {
+      this.tokensService.SaveConvertCesTokendetails(this.tokenModel).subscribe((res: any) => {
         // this.tokenData = res;
         this.setActiveTab('allTokens');
         this.toastr.success('Token Details Successfully Saved.', 'Success', { timeOut: 3000, });
@@ -740,11 +740,11 @@ export class RequestTokensComponent {
       (this.page - 1) * this.pageSize + this.pageSize
     );
   }
-  changeStatusById(id: any, status: any) {
+  changeStatusById(status: any) {
     let data = {
-      id: id,
+      id: this.openTokenData.id,
       status: status,
-      isStateUpdate: true
+      label: this.openTokenData.label,
     }
     this.tokensService.updateTokenStatus(data).subscribe((res: any) => {
       this.openTokenData.status = res;
@@ -776,9 +776,9 @@ export class RequestTokensComponent {
   }
 
 
-  changeStatusByIdAndDelete(id: any, status: string) {
+  changeStatusByIdAndDelete(status: any) {
     // Call the method to change status
-    this.changeStatusById(id, status);
+    this.changeStatusById(status);
     // Call the method to delete token
     this.deleteToken();
   }
