@@ -3,10 +3,8 @@ import { CompanyService } from 'src/app/core/services/company.service';
 import { ChartType } from './dashboard.model';
 
 import { TokensService } from 'src/app/core/services/tokens.service';
-import { forkJoin } from 'rxjs';
+import { elementAt, forkJoin } from 'rxjs';
 
-import { OwlOptions } from 'ngx-owl-carousel-o';
-import { TodoList } from './data';
 
 
 @Component({
@@ -53,7 +51,8 @@ export class CompanyDashboardComponent {
   totalCompleted: number = 0;
   pendingExtraToken: any = 0;
   CompletedExtraToken: any = 0;
-  tokenDataForClient: any = []
+  tokenDataForClient: any = [];
+  managerList: any = []
   dailyWorkLength: number = 0;
   CESTotal: number = 0;
   totalPendingDailyWork: number = 0;
@@ -65,15 +64,23 @@ export class CompanyDashboardComponent {
   eid: any;
   title!: string;
   selectedMonth: string;
-
+  designerList: any = []
+  processingEmployeeTokens: any = []
+  completedEmployeeTokens: any = []
+  pendingEmployeeTokens: any = []
   page = 1;
   pageSize = 9;
   collectionSize = 0;
   paginateData: any = [];
 
+  assignedClientsForEmployee: any = [];
   SelectedClient = this.tokendata.clientname || null;
-  comapanyRole: any = localStorage.getItem('Role');
 
+  companyRole: any = localStorage.getItem('Role');
+
+
+  tokendatemployee: any = [];
+  SelectedClientEmployee = this.tokendatemployee.clientname || null;
   Tokens: ChartType = {
     chart: {
       width: 227,
@@ -154,9 +161,7 @@ export class CompanyDashboardComponent {
   };
 
 
-  private fetchData() {
-    this.TodoList = TodoList;
-  }
+
 
   constructor(
     private companyService: CompanyService,
@@ -166,13 +171,43 @@ export class CompanyDashboardComponent {
     this.selectedMonth = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
   }
   ngOnInit(): void {
+    this.getAllTodoListDetails();
+    this.eid = localStorage.getItem('Eid');
+    if (this.companyRole == 'Designer') {
+      this.isDesignerLogin();
+    }
+    else if (this.companyRole == 'companyAdmin') {
+      this.isCompanyLogin();
+    }
+    else if (this.companyRole == 'Manager') {
+      this.isManagerLogin();
+    }
+  }
+  isDesignerLogin() {
+    this.getAssignedClientsData();
     this.getAllTokens();
-    this.fetchData()
+    this.getAllDailyWork();
+    this.getAlltokenByEmployee()
+    // this.getClientsDetails();
+
+
+
+  }
+
+  isManagerLogin() {
+    this.getAllTokenCompanyStatus();
+    this.getClientsDetails();
+    this.getAllDailyWork();
+    this.getAllEmployeeDetails();
+    this.getAllTokens();
+
+  }
+  isCompanyLogin() {
+    this.getAllTokens();
     this.getBarDetails();
     this.getAllEmployeeDetails();
     this.getAllDailyWork();
     this.getClientsDetails();
-    this.getAllTodoListDetails();
     this.getAllTokenCompanyStatus();
 
   }
@@ -283,6 +318,7 @@ export class CompanyDashboardComponent {
   }
 
   getAllTokenCompanyStatus() {
+    debugger
     this.tokensService.getAllTokenData().subscribe((res: any) => {
       if (this.SelectedClient != null) {
 
@@ -299,7 +335,9 @@ export class CompanyDashboardComponent {
     });
   }
 
+
   getAllDailyWorks(clientId: number | null) {
+    debugger
     this.dailyWorkData = [];
     this.companyService.getAllDailyList().subscribe((data: any) => {
       // Filter daily work data based on selected client and month
@@ -309,7 +347,7 @@ export class CompanyDashboardComponent {
           return element.clientid === clientId && element.date.includes(this.selectedMonth);
         });
 
-        if (this.comapanyRole === 'Designer') {
+        if (this.companyRole === 'Designer') {
           this.dailyWorkData = this.dailyWorkData.filter((element: any) => element.designerid === this.eid);
         }
       } else {
@@ -345,7 +383,6 @@ export class CompanyDashboardComponent {
   getAllToken(clientId: number) {
     this.tokensService.getAllTokenData().subscribe((res: any) => {
       this.tokenDataForClient = res.filter((token: any) => token.clientid === clientId);
-
       this.pendingExtraToken = this.tokenDataForClient.filter((token: any) => token.status === 'Pending').length;
       this.CompletedExtraToken = this.tokenDataForClient.filter((token: any) => token.status === 'Completed').length;
     });
@@ -360,11 +397,11 @@ export class CompanyDashboardComponent {
   getAllClientDetails(id: any) {
     this.companyService.getClientDetailsById(id).subscribe((res: any) => {
       this.clientlist = res;
+
     })
   }
 
   getAllTodoListDetails() {
-
     this.companyService.getTodoListDataById(localStorage.getItem('Eid')).subscribe((res: any) => {
       this.todoList = res;
       for (let i = 0; i < this.todoList.length; i++) {
@@ -379,5 +416,27 @@ export class CompanyDashboardComponent {
     this.paginateData = this.todoList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 
+  getAssignedClientsData() {
+    debugger;
+    this.companyService.getEmployeeIdByClient(this.eid).subscribe((data: any) => {
+      this.assignedClientsForEmployee = data.map((item: any) => ({ id: item.id, name: item.name }));
 
+    });
+  }
+  getAlltokenByEmployee() {
+    debugger
+    this.tokensService.getAllTokenData().subscribe((res: any) => {
+      if (this.SelectedClient != null) {
+        // Filter token data based on selected client
+        this.tokendatemployee = res.filter((token: any) => token.clientId === this.SelectedClient);
+
+        // Fetch and process daily work data based on selected client
+        this.getAllDailyWorks(this.SelectedClient.id);
+      } else {
+        // No client selected, fetch and process all data
+        this.tokendata = res;
+        this.getAllDailyWorks(null); // Pass null to indicate no specific client
+      }
+    });
+  }
 }

@@ -103,5 +103,9 @@ export class CompanyService {
     saveBulkScheduleDetails(data: any) {
         return this.http.post(ApiService.SaveBulkSchedulerDetailsURL, data);
     }
+    getEmployeeIdByClient(id: any) {
+        return this.http.get(ApiService.getAssignedEmployeeForChartURl + id);
+    }
+
 
 }

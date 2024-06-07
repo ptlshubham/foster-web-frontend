@@ -47,7 +47,7 @@ export const comapnyAdmin: MenuItem[] = [
     //     icon: 'mdi mdi-clipboard-list-outline',
     //     link: '/posting',
     // }
-     {
+    {
         id: 9,
         label: 'Monthly Work Report',
         icon: 'mdi mdi-note-multiple-outline',
@@ -74,35 +74,42 @@ export const Employee: MenuItem[] = [
     },
     {
         id: 2,
+        label: 'MENUITEMS.DASHBOARDS.TEXT',
+        icon: 'mdi mdi-desktop-mac-dashboard',
+        link: '/',
+    },
+    {
+        id: 3,
         label: 'Tokens',
         icon: 'mdi mdi-clipboard-list-outline',
         link: '/request-tokens',
     },
     {
-        id: 3,
+        id: 4,
         label: 'Client List',
         icon: 'mdi mdi-account-multiple-outline',
         link: '/clients',
     },
 
     {
-        id: 4,
+        id: 5,
         label: 'Todo-List',
         icon: 'mdi mdi-clipboard-list-outline',
         link: '/todo-list',
     },
-    // {
-    //     id: 5,
-    //     label: 'Posting',
-    //     icon: 'mdi mdi-clipboard-list-outline',
-    //     link: '/posting',
-    // },
     {
         id: 6,
+        label: 'Monthly Work Reposrt',
+        icon: 'mdi mdi-note-multiple-outline',
+        link: '/monthly-report',
+    },
+    {
+        id: 7,
         label: 'Help Desk',
         icon: 'mdi mdi-help-circle-outline',
         link: '/help-desk',
-    }
+    },
+
 
 ];
 

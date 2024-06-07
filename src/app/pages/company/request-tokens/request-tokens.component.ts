@@ -51,6 +51,7 @@ export class RequestTokensComponent {
   tokenData: any = [];
   tempTokenData: any = [];
   isMailOpen: boolean = false;
+
   openTokenData: any = {};
   activeTab: string = 'allTokens';
   role: any;
@@ -162,6 +163,7 @@ export class RequestTokensComponent {
     this.tokenModel.label = data.name;
   }
   getAssignedEmpData(id: any) {
+
     this.companyService.getAssignedEmpDetailsById(id).subscribe((res: any) => {
       this.assignedEmpData = res;
 
@@ -288,7 +290,7 @@ export class RequestTokensComponent {
       })
     }
   }
-  
+
 
   filterTodayTokens(tokens: any) {
 
@@ -414,6 +416,7 @@ export class RequestTokensComponent {
     }
 
   }
+
   getArrayLengthOfEmail() {
     this.paginateData = [];
     this.totalRecords = this.emailData.length;
@@ -448,6 +451,7 @@ export class RequestTokensComponent {
     });
   }
   getAllToken() {
+    debugger
     this.tokensService.getAllTokenData().subscribe((res: any) => {
       this.tempTokenData = res;
       this.tempTokenData.forEach((element: any, index: number) => {
@@ -672,7 +676,7 @@ export class RequestTokensComponent {
           if (this.multiTokenImgData.length > 0) {
 
             this.multiTokenImgData.forEach((element: any, ind: any) => {
-              this.addMultiImg.push({ name: ind + 1, multiImageUrl: 'https://api.cesociety.in' + element.image });
+              this.addMultiImg.push({ name: ind + 1, multiImageUrl: 'http://localhost:9000' + element.image });
             });
           }
         })
@@ -695,7 +699,7 @@ export class RequestTokensComponent {
 
           }
         });
-        this.imageUrl = 'https://api.cesociety.in' + this.tokenModel.image;
+        this.imageUrl = 'http://localhost:9000' + this.tokenModel.image;
       }
 
     });

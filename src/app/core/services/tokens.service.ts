@@ -56,5 +56,14 @@ export class TokensService {
     updateClearNotification(data: any) {
         return this.httpClient.post(ApiService.updateTokenNotificationURL, data);
     }
+    saveHelpTicket(data: any): Observable<any> {
+        return this.httpClient.post(ApiService.saveHelpTicketURL, data);
+    }
+    getAllHelpTicket() {
+        return this.httpClient.get<any>(ApiService.GetAllHelpTicketURL);
+    }
+    updateHelpTicketStatus(data: any) {
+        return this.httpClient.post(ApiService.UpdateHelpTokenStatusDetailsURL, data);
+    }
 
 }
