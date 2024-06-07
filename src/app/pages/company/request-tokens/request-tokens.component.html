@@ -228,22 +228,22 @@
                         <button type="button" class="btn btn-primary waves-light waves-effect me-2"
                             [disabled]="openTokenData.status!='Pending'"
                             [ngClass]="{'btn-success':  openTokenData.status == 'Pending'}"
-                            (click)="changeStatusById(openTokenData.id,'Pending')" ngbTooltip="Token Pending "><i
+                            (click)="changeStatusById('Pending')" ngbTooltip="Token Pending "><i
                                 class="mdi mdi-account-clock"></i></button>
                         <button type="button" class="btn btn-primary waves-light waves-effect me-2"
                             [ngClass]="{'btn-success':  openTokenData.status == 'Processing'}"
-                            (click)="changeStatusById(openTokenData.id,'Processing')" ngbTooltip="Token Processing "><i
+                            (click)="changeStatusById('Processing')" ngbTooltip="Token Processing "><i
                                 class="mdi mdi-spin mdi-loading "></i></button>
                         <button type="button" class="btn btn-primary waves-light waves-effect me-2"
                             *ngIf="comapanyRole !== 'Designer'"
                             [ngClass]="{'btn-success':  openTokenData.status == 'Completed'}"
-                            (click)="changeStatusById(openTokenData.id,'Completed')" ngbTooltip="Token Complated                     
+                            (click)="changeStatusById('Completed')" ngbTooltip="Token Complated                     
                                 "><i class="mdi mdi-check-all"></i></button>
                         <button type="button" class="btn btn-primary waves-light waves-effect me-2"
                             [ngClass]="{'btn-success':  openTokenData.status == 'Cancel'}"
-                            *ngIf="comapanyRole !== 'Designer'"
-                            (click)="changeStatusByIdAndDelete(openTokenData.id,'Cancel')" ngbTooltip="Token Cancel"><i
-                                class="mdi mdi-trash-can-outline" (click)="deleteToken()"></i></button>
+                            *ngIf="comapanyRole !== 'Designer'" (click)="changeStatusByIdAndDelete('Cancel')"
+                            ngbTooltip="Token Cancel"><i class="mdi mdi-trash-can-outline"
+                                (click)="deleteToken()"></i></button>
                     </div>
                 </div>
 
