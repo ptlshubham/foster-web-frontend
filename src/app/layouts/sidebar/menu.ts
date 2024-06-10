@@ -111,6 +111,12 @@ export const Employee: MenuItem[] = [
     },
     {
         id: 7,
+        label: 'Daily Work Report',
+        icon: 'mdi mdi-file-chart-outline',
+        link: '/daily-report',
+    },
+    {
+        id: 8,
         label: 'Help Desk',
         icon: 'mdi mdi-help-circle-outline',
         link: '/help-desk',
@@ -149,11 +155,24 @@ export const Manager: MenuItem[] = [
         icon: 'mdi mdi-account-multiple-outline',
         link: '/clients',
     },
+
     {
         id: 5,
         label: 'Todo-List',
         icon: 'mdi mdi-clipboard-list-outline',
         link: '/todo-list',
+    },
+    {
+        id: 6,
+        label: 'Monthly Work Report',
+        icon: 'mdi mdi-note-multiple-outline',
+        link: '/monthly-report',
+    },
+    {
+        id: 8,
+        label: 'Daily Work Report',
+        icon: 'mdi mdi-file-chart-outline',
+        link: '/daily-report',
     },
     // {
     //     id: 6,
