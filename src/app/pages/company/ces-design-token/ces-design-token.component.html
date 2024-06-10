@@ -81,7 +81,7 @@
                 <div class="d-flex align-items-center mb-4">
                     <div class="flex-shrink-0 me-3">
                         <td class="text-center">
-                            <img src="http://localhost:9000{{tokenModel.clientlogo}}" alt=""
+                            <img src="https://api.cesociety.in{{tokenModel.clientlogo}}" alt=""
                                 class="rounded-circle avatar-sm">
                         </td>
                     </div>
@@ -107,21 +107,21 @@
                 <div class="row">
                     <div class="col-xl-2 col-6" *ngIf="tokenModel.image!=undefined && tokenModel.image!='undefined'">
                         <div class="card">
-                            <img class="card-img-top img-fluid" [src]="'http://localhost:9000' +tokenModel.image"
+                            <img class="card-img-top img-fluid" [src]="'https://api.cesociety.in' +tokenModel.image"
                                 alt="Token Image">
                             <div class="py-2 text-center">
                                 <a href="javascript:void(0);"
-                                    (click)="downloadImage('http://localhost:9000' +tokenModel.image)"
+                                    (click)="downloadImage('https://api.cesociety.in' +tokenModel.image)"
                                     class="fw-medium">Download</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-2 col-6" *ngFor="let s of multiTokenImgData;let i=index">
                         <div class="card">
-                            <img class="card-img-top img-fluid" [src]="'http://localhost:9000' + s.image"
+                            <img class="card-img-top img-fluid" [src]="'https://api.cesociety.in' + s.image"
                                 alt="Token Image">
                             <div class="py-2 text-center">
-                                <a href="javascript:void(0);" (click)="downloadImage('http://localhost:9000' + s.image)"
+                                <a href="javascript:void(0);" (click)="downloadImage('https://api.cesociety.in' + s.image)"
                                     class="fw-medium">Download</a>
                             </div>
                         </div>

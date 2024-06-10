@@ -676,7 +676,7 @@ export class RequestTokensComponent {
           if (this.multiTokenImgData.length > 0) {
 
             this.multiTokenImgData.forEach((element: any, ind: any) => {
-              this.addMultiImg.push({ name: ind + 1, multiImageUrl: 'http://localhost:9000' + element.image });
+              this.addMultiImg.push({ name: ind + 1, multiImageUrl: 'https://api.cesociety.in' + element.image });
             });
           }
         })
@@ -699,7 +699,7 @@ export class RequestTokensComponent {
 
           }
         });
-        this.imageUrl = 'http://localhost:9000' + this.tokenModel.image;
+        this.imageUrl = 'https://api.cesociety.in' + this.tokenModel.image;
       }
 
     });
