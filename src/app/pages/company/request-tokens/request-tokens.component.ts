@@ -280,7 +280,7 @@ export class RequestTokensComponent {
       if (this.tokenModel.description == undefined) {
         this.tokenModel.description = null;
       }
-      this.tokensService.SaveConvertCesTokendetails(this.tokenModel).subscribe((res: any) => {
+      this.tokensService.SaveTokendetails(this.tokenModel).subscribe((res: any) => {
         // this.tokenData = res;
         this.setActiveTab('allTokens');
         this.toastr.success('Token Details Successfully Saved.', 'Success', { timeOut: 3000, });

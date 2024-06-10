@@ -165,6 +165,11 @@ export class CesDesignTokenComponent implements OnInit {
   convertCesToToken() {
     let data = [{ empid: 15, email: 'hershamin04@gmail.com', name: 'Harshil Amin' }];
     this.tokenModel.managers = data;
+    // Assuming tokenModel is an object with an expecteddate property
+    const originalDate = new Date(this.tokenModel.expecteddate);
+    const convertedDate = new Date(originalDate.getFullYear(), originalDate.getMonth(), 6);
+    const formattedDate = convertedDate.toISOString().split('T')[0];
+    this.tokenModel.expecteddate = formattedDate;
     this.tokenModel.clientid = this.cesClientId;
     this.tokenModel.label = 'CES';
     this.tokenModel.tokenMultiImage = this.multiTokenImgData;
