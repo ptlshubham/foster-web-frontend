@@ -74,8 +74,6 @@ import { CesDesignTokenComponent } from './ces-design-token/ces-design-token.com
     CarouselModule,
     NgbDatepickerModule,
     FlatpickrModule.forRoot()
-
-
   ],
   exports: [
     CompanyDashboardComponent,

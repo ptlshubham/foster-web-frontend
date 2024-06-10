@@ -65,7 +65,9 @@ export class TokensService {
     updateHelpTicketStatus(data: any) {
         return this.httpClient.post(ApiService.UpdateHelpTokenStatusDetailsURL, data);
     }
-
+    removeTokensData(id: any) {
+        return this.httpClient.get(ApiService.removeTokensByIdURL + id);
+    }
     // CES Tokens
 
     getAllCESTokenData(){

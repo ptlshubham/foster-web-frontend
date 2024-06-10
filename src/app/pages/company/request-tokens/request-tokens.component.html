@@ -28,9 +28,6 @@
                         <a href="javascript:void(0);" [class.active]="activeTab === 'completedTokens'"
                             (click)="setActiveTab('completedTokens')"><i class="mdi mdi-check-all me-2"></i>Completed
                             Tokens<span class="ms-1 float-end">{{completedData.length}}</span></a>
-                        <a href="javascript:void(0);" [class.active]="activeTab === 'cancelTokens'"
-                            (click)="setActiveTab('cancelTokens')"><i class="mdi mdi-trash-can-outline me-2"></i>Cancel
-                            Tokens<span class="ms-1 float-end">{{cancelData.length}}</span></a>
                     </div>
                     <h6 class="mt-4">Labels</h6>
 
@@ -148,8 +145,6 @@
                                     <span class="star-toggle mdi mdi-check-all text-success"
                                         *ngIf="e.status=='Completed'" ngbTooltip="Token Completed"
                                         placement="top"></span>
-                                    <span class="star-toggle mdi mdi-trash-can-outline" *ngIf="e.status=='Cancel'"
-                                        ngbTooltip="Token Cancel" placement="top"></span>
                                 </td>
                                 <td class="text-center" (click)="openTokenEmailDetails(e)">{{e.clientname}}
                                 </td>
@@ -241,9 +236,8 @@
                                 "><i class="mdi mdi-check-all"></i></button>
                         <button type="button" class="btn btn-primary waves-light waves-effect me-2"
                             [ngClass]="{'btn-success':  openTokenData.status == 'Cancel'}"
-                            *ngIf="comapanyRole !== 'Designer'" (click)="changeStatusByIdAndDelete('Cancel')"
-                            ngbTooltip="Token Cancel"><i class="mdi mdi-trash-can-outline"
-                                (click)="deleteToken()"></i></button>
+                            *ngIf="comapanyRole !== 'Designer'" (click)="changeStatusByIdAndDelete(openTokenData)"
+                            ngbTooltip="Token Cancel"><i class="mdi mdi-trash-can-outline"></i></button>
                     </div>
                 </div>
 
@@ -291,7 +285,8 @@
                             <img class="card-img-top img-fluid" [src]="'https://api.cesociety.in' + s.image"
                                 alt="Token Image">
                             <div class="py-2 text-center">
-                                <a href="javascript:void(0);" (click)="downloadImage('https://api.cesociety.in' + s.image)"
+                                <a href="javascript:void(0);"
+                                    (click)="downloadImage('https://api.cesociety.in' + s.image)"
                                     class="fw-medium">Download</a>
                             </div>
                         </div>

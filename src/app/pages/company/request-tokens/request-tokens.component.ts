@@ -345,12 +345,6 @@ export class RequestTokensComponent {
         this.emailData = this.completedData;
         this.getArrayLengthOfEmail();
       }
-      else if (this.activeTab == 'cancelTokens') {
-        this.filterResetForDailyAll();
-        this.filterResetForTokenAll();
-        this.emailData = this.cancelData;
-        this.getArrayLengthOfEmail();
-      }
       else if (this.activeTab == 'CES') {
         this.filterResetForDailyAll();
         this.filterResetForTokenAll();
@@ -393,12 +387,6 @@ export class RequestTokensComponent {
         this.filterResetForDailyAll();
         this.filterResetForTokenAll();
         this.emailData = this.completedData;
-        this.getArrayLengthOfEmail();
-      }
-      else if (this.activeTab == 'cancelTokens') {
-        this.filterResetForDailyAll();
-        this.filterResetForTokenAll();
-        this.emailData = this.cancelData;
         this.getArrayLengthOfEmail();
       }
       else if (this.activeTab == 'CES') {
@@ -758,7 +746,10 @@ export class RequestTokensComponent {
     })
   }
 
-  deleteToken() {
+
+
+  changeStatusByIdAndDelete(data: any) {
+    debugger
     Swal.fire({
       title: 'Are you sure?',
       text: 'You won\'t be able to revert this!',
@@ -769,18 +760,15 @@ export class RequestTokensComponent {
       confirmButtonText: 'Yes, delete it!'
     }).then(result => {
       if (result.value) {
-        this.deleteMail();
-        Swal.fire('Deleted!', 'Mail has been deleted.', 'success');
+        this.tokensService.removeTokensData(data.id).subscribe((data: any) => {
+          this.isMailOpen = false;
+          this.openTokenData = {};
+          this.multiTokenImgData = [];
+          this.setActiveTab('allTokens');
+          Swal.fire('Deleted!', 'Token has been successfully Deleted.', 'success');
+        })
       }
     });
-  }
-
-
-  changeStatusByIdAndDelete(status: any) {
-    // Call the method to change status
-    this.changeStatusById(status);
-    // Call the method to delete token
-    this.deleteToken();
   }
 
 

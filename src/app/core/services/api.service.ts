@@ -43,6 +43,7 @@ export class ApiService {
   public static getALLTokenDetailsURL: string = ApiService.HOST_URL + '/admin/GetALLTokenDetails';
   public static updateTokenUnreadStatusURL: string = ApiService.HOST_URL + '/admin/UpdateTokenUnreadStatus/';
   public static getALLTokenImageURL: string = ApiService.HOST_URL + '/admin/GetALLTokenImage/';
+  public static removeTokensByIdURL: string = ApiService.HOST_URL + '/admin/RemoveTokensById/';
 
   public static getEmployeeTokenByIdURL: string = ApiService.HOST_URL + '/admin/GetEmployeeTokenById/';
   public static updateTokenStatusDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateTokenStatusDetails';

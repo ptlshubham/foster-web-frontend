@@ -36,6 +36,8 @@ export class CompanyDashboardComponent {
   staffModel: any = {};
   employeeDataList: any = [];
   dailyWorkData: any = [];
+  dailyEmpWorkData: any = [];
+
   pendingStories: number = 0;
   completedStories: number = 0;
   pendingPosts: number = 0;
@@ -61,9 +63,10 @@ export class CompanyDashboardComponent {
   totalCompletedDailyWork: number = 0;
   todoList: any = []
   calendarEvents: any = []
-  eid: any;
+  eid: any = localStorage.getItem('Eid');
   title!: string;
   selectedMonth: string;
+  currentMonth: string;
   designerList: any = []
   processingEmployeeTokens: any = []
   completedEmployeeTokens: any = []
@@ -75,15 +78,33 @@ export class CompanyDashboardComponent {
 
   assignedClientsForEmployee: any = [];
   SelectedClient = this.tokendata.clientname || null;
-
+  SelectedEmpClient = this.tokendata.clientname || null;
   companyRole: any = localStorage.getItem('Role');
 
   tokendatemployee: any = [];
-  SelectedClientEmployee = this.tokendatemployee.clientname || null;
   totalOfDailyWorkForEmployee: number = 0;
   dailyWorkBoard: any = []
   tokenData: any = [];
   tokendataForEmployee: any = []
+  empCompletedTokenNumber: number = 0;
+  empPendingTokenNumber: number = 0;
+  empProcessingTokenNumber: number = 0;
+
+  forEmpPendingStories: number = 0;
+  forEmpCompletedStories: number = 0;
+  forEmpPendingPost: number = 0;
+  forEmpCompletedPost: number = 0;
+  forEmpPendingReels: number = 0;
+  forEmpCompletedReels: number = 0;
+  forEmpExtraPending: number = 0;
+  forEmpExtraCompleted: number = 0;
+
+  forEmpTotalPending: number = 0;
+  forEmpTotalCompleted: number = 0;
+  forEmpTotalTask: number = 0;
+
+  cesCompleted: number = 0;
+  cesInCompleted: number = 0;
 
   Tokens: ChartType = {
     chart: {
@@ -100,7 +121,7 @@ export class CompanyDashboardComponent {
     labels: [],
   };
 
-  investedOverview: ChartType = {
+  dailyWorkOverview: ChartType = {
     chart: {
       height: 270,
       type: 'radialBar',
@@ -148,8 +169,6 @@ export class CompanyDashboardComponent {
     series: [0],
     labels: ['Pending', 'Completed'],
   };
-
-
   barChart: ChartType = {
     chart: { height: 350, type: "bar", toolbar: { show: !1 } },
     plotOptions: { bar: { horizontal: !0 } },
@@ -163,21 +182,38 @@ export class CompanyDashboardComponent {
       ],
     },
   };
-
-
-
-
+  donutChart: ChartType = {
+    chart: { height: 320, type: "donut" },
+    series: [44, 55, 41, 17, 15],
+    labels: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
+    colors: ["#2ab57d", "#5156be", "#fd625e", "#4ba6ef", "#ffbf53"],
+    legend: {
+        show: !0,
+        position: "bottom",
+        horizontalAlign: "center",
+        verticalAlign: "middle",
+        floating: !1,
+        fontSize: "14px",
+        offsetX: 0,
+    },
+    responsive: [
+        {
+            breakpoint: 600,
+            options: { chart: { height: 240 }, legend: { show: !1 } },
+        },
+    ],
+};
   constructor(
     private companyService: CompanyService,
     public tokensService: TokensService,
   ) {
     const currentDate = new Date();
     this.selectedMonth = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
+    this.currentMonth = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
   }
   ngOnInit(): void {
 
     this.getAllTodoListDetails();
-    this.eid = localStorage.getItem('Eid');
     if (this.companyRole == 'Designer') {
       this.isDesignerLogin();
     }
@@ -189,26 +225,17 @@ export class CompanyDashboardComponent {
     }
   }
   isDesignerLogin() {
-    // this.getDashboardData()
+    this.getAllTokenByEmployee();
     this.getAssignedClientsData();
-    this.getAllTokens();
-    this.getAllDailyWork();
-    this.getAlltokenByEmployee();
-
-    // this.getTokenByEmployee();
-    // this.getClientsDetails();
-
-
-
+    this.getAlldailyWorkForEmployee(null);
   }
 
   isManagerLogin() {
-    this.getAllTokenCompanyStatus();
-    this.getClientsDetails();
-    this.getAllDailyWork();
-    this.getAllEmployeeDetails();
     this.getAllTokens();
-
+    this.getBarDetails();
+    this.getAllDailyWork();
+    this.getClientsDetails();
+    this.getAllTokenCompanyStatus();
   }
   isCompanyLogin() {
     this.getAllTokens();
@@ -217,7 +244,6 @@ export class CompanyDashboardComponent {
     this.getAllDailyWork();
     this.getClientsDetails();
     this.getAllTokenCompanyStatus();
-
   }
   onMonthChange() {
     this.getAllTokenCompanyStatus();
@@ -228,14 +254,11 @@ export class CompanyDashboardComponent {
     })
   }
   getBarDetails() {
-    // Fetch employee details and daily work data
     forkJoin(
       this.companyService.getAllEmployeeDetailsData(),
       this.companyService.getAllDailyList()
     ).subscribe(([employeeRes, dailyWorkRes]: [any, any]) => {
       this.employeeList = employeeRes;
-
-      // Filter employees with role "Designer" and map their IDs and names to an array
       const designers = this.employeeList
         .filter((employee: any) => employee.role === 'Designer')
         .map((employee: any) => ({ id: employee.id, name: employee.name }));
@@ -318,8 +341,11 @@ export class CompanyDashboardComponent {
     this.tokensService.getAllTokenData().subscribe((res: any) => {
       this.temparra = res;
       this.pendingDatatotal = res.filter((token: any) => token.status === 'Pending');
-      this.processingDatatotal = res.filter((token: any) => token.status === 'Processing');
+      this.processingDatatotal = res.filter((token: any) => token.status === 'Processing').length;
       this.completedDatatotal = res.filter((token: any) => token.status === 'Completed');
+      this.cesCompleted = res.filter((token: any) => token.status === 'Completed' && token.label == 'CES').length;
+      this.cesInCompleted = res.filter((token: any) => token.status != 'Completed' && token.label == 'CES').length;
+
       this.CancelToken = res.filter((token: any) => token.status === 'Cancel');
       this.Tokens.series.push(this.pendingDatatotal.length, this.processingDatatotal.length, this.completedDatatotal.length);
       this.Tokens.labels.push('Pending', 'Processing', 'Completed');
@@ -381,7 +407,7 @@ export class CompanyDashboardComponent {
       const totalTasks = this.totalPending + this.totalCompleted;
       const completionPercentage = totalTasks > 0 ? Math.floor((this.totalCompleted / totalTasks) * 100) : 0;
 
-      this.investedOverview.series = [completionPercentage];
+      this.dailyWorkOverview.series = [completionPercentage];
       if (clientId !== null) {
         this.getAllToken(clientId);
       }
@@ -412,7 +438,7 @@ export class CompanyDashboardComponent {
   }
 
   getAllTodoListDetails() {
-    this.companyService.getTodoListDataById(localStorage.getItem('Eid')).subscribe((res: any) => {
+    this.companyService.getTodoListDataById(this.eid).subscribe((res: any) => {
       this.todoList = res;
       for (let i = 0; i < this.todoList.length; i++) {
         this.todoList[i].index = i + 1;
@@ -427,96 +453,70 @@ export class CompanyDashboardComponent {
   }
 
   getAssignedClientsData() {
-    debugger
     this.companyService.getEmployeeIdByClient(this.eid).subscribe((data: any) => {
-      this.assignedClientsForEmployee = data.map((item: any) => ({ id: item.id, name: item.name }));
-      debugger
-      if (this.SelectedClientEmployee != null) {
-        this.tokensService.getAllTokenData().subscribe((res: any) => {
-
-          this.tokendata = res.filter((token: any) => token.clientid === this.SelectedClientEmployee.id);
-
-          this.getAllDailyWorkByClientId(this.SelectedClientEmployee.id);
-        });
-      } else {
-        this.tokensService.getAllTokenData().subscribe((res: any) => {
-          this.tokendata = res;
-          this.getAllDailyWorkByClientId(null);
-        });
-      }
+      this.assignedClientsForEmployee = data;
     });
   }
 
-  getAlltokenByEmployee() {
-    debugger;
-    // Retrieve the employee ID from local storage (or any other source)
-    const employeeId = localStorage.getItem('Eid'); // Assuming the employee ID is stored under the key 'employeeId'
-
-    this.tokensService.getAssignedTokenEmp(this.eid).subscribe((res: any) => {
-      if (this.SelectedClientEmployee != null) {
-        // Filter token data based on selected client
-        this.tokendataForEmployee = res.filter((token: any) => token.clientid === this.SelectedClientEmployee.id);
-
-        // Fetch daily work data and aggregate the required counts based on selected client
-        this.getAlldailyWorkForEmployee(this.SelectedClientEmployee.id);
-
-        // Further filter the tokens based on the employee ID and status 'Pending'
-        const pendingTokensLength = this.tokendataForEmployee.filter((token: any) => token.employeeid === employeeId && token.status === 'Pending').length;
-        console.log('Pending Tokens:', pendingTokensLength);
-
-      } else {
-        // No client selected, fetch and process all data
-        this.tokendataForEmployee = res;
-        this.getAlldailyWorkForEmployee(null); // Pass null to indicate no specific client
-
-        // Further filter the tokens based on the employee ID and status 'Pending'
-        const pendingTokensLength = this.tokendataForEmployee.filter((token: any) => token.employeeid === employeeId && token.status === 'Pending').length;
-        console.log('Pending Tokens:', pendingTokensLength);
-      }
+  getAllTokenByEmployee() {
+    this.tokensService.getTokenByEmpIdData(this.eid).subscribe((res: any) => {
+      this.empCompletedTokenNumber = res.filter((token: any) => token.status == 'Completed').length;
+      this.empPendingTokenNumber = res.filter((token: any) => token.status == 'Pending').length;
+      this.empProcessingTokenNumber = res.filter((token: any) => token.status == 'Processing').length;
     });
-  }
-
-  getAlldailyWorkForEmployee(clientId: number | null) {
-    debugger
-
-    this.dailyWorkData = [];
     this.companyService.getAllDailyList().subscribe((data: any) => {
-      // Filter daily work data based on selected client and month
-      if (clientId !== null) {
-        this.dailyWorkData = data.filter((element: any) => {
-          // Check if the date falls within the selected month
+      const empTotalDaily = data.filter((element: any) => element.designerid == this.eid);
+      this.forEmpTotalTask = empTotalDaily.filter((element: any) => element.date.includes(this.currentMonth)).length;
+    });
+  }
+  onEmpMonthChange() {
+    this.getAlldailyWorkForEmployee(null);
+  }
+  onSelectionChange(data: any) {
+    debugger
+    if (data != null) {
+      this.getAlldailyWorkForEmployee(data.clientid);
+    }
+    else {
+      this.getAlldailyWorkForEmployee(null);
+    }
+  }
+  getAlldailyWorkForEmployee(clientId: number | null) {
+    this.dailyEmpWorkData = [];
+    this.companyService.getAllDailyList().subscribe((data: any) => {
+      if (clientId != null) {
+        this.dailyEmpWorkData = data.filter((element: any) => {
           return element.clientid === clientId && element.date.includes(this.selectedMonth);
         });
-
-        if (this.companyRole === 'Designer') {
-          this.dailyWorkData = this.dailyWorkData.filter((element: any) => element.designerid === this.eid);
-        }
+        this.tokensService.getTokenByEmpIdData(this.eid).subscribe((res: any) => {
+          const tokensData = res.filter((item: any) => item.clientid == clientId);
+          this.forEmpExtraPending = tokensData.filter((item: any) => item.status == 'Pending').length;
+          this.forEmpExtraCompleted = tokensData.filter((item: any) => item.status == 'Completed').length;
+        });
       } else {
-        // No client selected, use all data for the selected month
-        this.dailyWorkData = data.filter((element: any) => element.date.includes(this.selectedMonth));
+        this.dailyEmpWorkData = data.filter((element: any) => element.designerid == this.eid && element.date.includes(this.selectedMonth));
+        this.tokensService.getTokenByEmpIdData(this.eid).subscribe((res: any) => {
+          this.forEmpExtraPending = res.filter((item: any) => item.status == 'Pending').length;
+          this.forEmpExtraCompleted = res.filter((item: any) => item.status == 'Completed').length;
+        });
       }
+      this.forEmpPendingStories = this.dailyEmpWorkData.filter((item: any) => item.title === 'Story' && !item.iscompleted).length;
+      this.forEmpCompletedStories = this.dailyEmpWorkData.filter((item: any) => item.title === 'Story' && item.iscompleted).length;
 
-      // Filter and count pending and completed stories, posts, reels
-      this.pendingStories = this.dailyWorkData.filter((item: any) => item.title === 'Story' && !item.iscompleted).length;
-      this.completedStories = this.dailyWorkData.filter((item: any) => item.title === 'Story' && item.iscompleted).length;
+      this.forEmpPendingPost = this.dailyEmpWorkData.filter((item: any) => item.title === 'Post' && !item.iscompleted).length;
+      this.forEmpCompletedPost = this.dailyEmpWorkData.filter((item: any) => item.title === 'Post' && item.iscompleted).length;
 
-      this.pendingPosts = this.dailyWorkData.filter((item: any) => item.title === 'Post' && !item.iscompleted).length;
-      this.completedPosts = this.dailyWorkData.filter((item: any) => item.title === 'Post' && item.iscompleted).length;
-
-      this.pendingReels = this.dailyWorkData.filter((item: any) => item.title === 'Reel' && !item.iscompleted).length;
-      this.completedReels = this.dailyWorkData.filter((item: any) => item.title === 'Reel' && item.iscompleted).length;
+      this.forEmpPendingReels = this.dailyEmpWorkData.filter((item: any) => item.title === 'Reel' && !item.iscompleted).length;
+      this.forEmpCompletedReels = this.dailyEmpWorkData.filter((item: any) => item.title === 'Reel' && item.iscompleted).length;
 
       // Calculate totals and completion percentage
-      this.totalPending = this.pendingStories + this.pendingPosts + this.pendingReels;
-      this.totalCompleted = this.completedStories + this.completedPosts + this.completedReels;
+      this.forEmpTotalPending = this.forEmpPendingStories + this.forEmpPendingPost + this.forEmpPendingReels;
+      this.forEmpTotalCompleted = this.forEmpCompletedStories + this.forEmpCompletedPost + this.forEmpCompletedReels;
 
-      const totalTasks = this.totalPending + this.totalCompleted;
-      const completionPercentage = totalTasks > 0 ? Math.floor((this.totalCompleted / totalTasks) * 100) : 0;
+      const totalTasks = this.forEmpTotalPending + this.forEmpTotalCompleted;
+      const completionPercentage = totalTasks > 0 ? Math.floor((this.forEmpTotalCompleted / totalTasks) * 100) : 0;
 
-      this.investedOverview.series = [completionPercentage];
-      if (clientId !== null) {
-        this.getAllToken(clientId);
-      }
+      this.dailyWorkOverview.series = [completionPercentage];
     });
   }
 }
