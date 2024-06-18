@@ -47,7 +47,7 @@
                     <div class="mt-2 client-list-container overflow-auto">
                         <a href="javascript: void(0);" class="d-flex align-items-start" *ngFor="let c of clientList"
                             (click)="openClientWiseList(c.id)">
-                            <img class="flex-shrink-0 me-3 rounded-circle" src="https://api.cesociety.in{{c.logo}}"
+                            <img class="flex-shrink-0 me-3 rounded-circle" src="http://localhost:9000{{c.logo}}"
                                 alt="logo" height="36">
                             <div class="flex-grow-1 chat-user-box">
                                 <p class="user-title m-0">{{c.name}}</p>
@@ -134,6 +134,11 @@
                                     </span>
                                 </td>
                                 <td class="text-center" (click)="openTokenEmailDetails(e)">
+                                    <span *ngIf="isDailyOpen"
+                                        [ngbTooltip]="e.date | date: 'MMM d, y, h:mm:ss a'">{{e.date | date:
+                                        'MMM d'}}</span>
+                                </td>
+                                <td class="text-center" (click)="openTokenEmailDetails(e)">
                                     <span class="star-toggle mdi mdi-account-clock text-warning"
                                         *ngIf="e.status=='Pending'" ngbTooltip="Token Pending" placement="top"></span>
                                     <span class="star-toggle mdi mdi-spin mdi-loading text-primary"
@@ -198,9 +203,6 @@
                                         |
                                         date:
                                         'MMM d'}}</span>
-                                    <span *ngIf="isDailyOpen"
-                                        [ngbTooltip]="e.date | date: 'MMM d, y, h:mm:ss a'">{{e.date | date:
-                                        'MMM d'}}</span>
                                 </td>
                             </tr>}
                         </tbody>
@@ -244,7 +246,7 @@
                 <div class="d-flex align-items-center mb-4">
                     <div class="flex-shrink-0 me-3">
                         <td class="text-center">
-                            <img src="https://api.cesociety.in{{openTokenData.clientlogo}}" alt=""
+                            <img src="http://localhost:9000{{openTokenData.clientlogo}}" alt=""
                                 class="rounded-circle avatar-sm">
                         </td>
                     </div>
@@ -271,25 +273,31 @@
                     <div class="col-xl-2 col-6"
                         *ngIf="openTokenData.image!=undefined && openTokenData.image!='undefined'">
                         <div class="card">
-                            <img class="card-img-top img-fluid" [src]="'https://api.cesociety.in' +openTokenData.image"
+                            <img class="card-img-top img-fluid" [src]="'http://localhost:9000' +openTokenData.image"
                                 alt="Token Image">
                             <div class="py-2 text-center">
                                 <a href="javascript:void(0);"
-                                    (click)="downloadImage('https://api.cesociety.in' +openTokenData.image)"
+                                    (click)="downloadImage('http://localhost:9000' +openTokenData.image)"
                                     class="fw-medium">Download</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-2 col-6" *ngFor="let s of multiTokenImgData;let i=index">
                         <div class="card">
-                            <img class="card-img-top img-fluid" [src]="'https://api.cesociety.in' + s.image"
+                            <img class="card-img-top img-fluid" [src]="'http://localhost:9000' + s.image"
                                 alt="Token Image">
                             <div class="py-2 text-center">
                                 <a href="javascript:void(0);"
-                                    (click)="downloadImage('https://api.cesociety.in' + s.image)"
+                                    (click)="downloadImage('http://localhost:9000' + s.image)"
                                     class="fw-medium">Download</a>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-xl-2 col-6"
+                        *ngIf="openTokenData.file!=undefined && openTokenData.file!='undefined'">
+                        <button type="submit" class="btn btn-primary waves-effect btn-label waves-light"
+                            (click)="downloadFile(openTokenData.file)"><i
+                                class="fas fa-file-download label-icon"></i>Download</button>
                     </div>
                 </div>
             </div>

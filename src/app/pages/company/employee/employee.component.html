@@ -152,12 +152,12 @@
                     <h5 class="card-title">Employee Details List</h5>
                     <div class="d-flex justify-content-end gap-2">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="fname" placeholder="Search Client Name"
+                            <input type="text" class="form-control" id="fname" placeholder="Search Employee Name"
                                 [(ngModel)]="searchQuery" (input)="applySearchFilter()">
                         </div>
                         <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
                             (click)="openAddStaff()"><i class="bx bx-user-plus label-icon"></i>
-                            Add New Client</button>
+                            Add New Employee</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -181,7 +181,7 @@
 
                                     <td class="text-left">{{s.index}}</td>
                                     <td class="text-center">
-                                        <img src="https://api.cesociety.in{{s.profile_image}}" alt=""
+                                        <img src="http://localhost:9000{{s.profile_image}}" alt=""
                                             class="rounded-circle avatar-sm">
                                     </td>
                                     <td class="text-center">{{s.name}} </td>

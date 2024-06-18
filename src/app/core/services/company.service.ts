@@ -106,6 +106,9 @@ export class CompanyService {
     getEmployeeIdByClient(id: any) {
         return this.http.get(ApiService.getAssignedEmployeeForChartURl + id);
     }
-
+    getAllDesignerSheetList(): Observable<any> {
+        return this.http.get(ApiService.getALLDesignerSheetURL);
+    }
+    
 
 }

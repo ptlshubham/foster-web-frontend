@@ -142,7 +142,7 @@ export class EmployeeComponent {
     this.paginateData = this.filterEmployeeList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
   openUpdateStaff(data: any) {
-    this.imageUrl = 'https://api.cesociety.in' + data.profile_image;
+    this.imageUrl = 'http://localhost:9000' + data.profile_image;
     this.staffModel.profile = data.profile_image;
     this.staffModel = data;
     this.staffModel.birthday_date = new Date(data.birthday_date).toISOString().slice(0, 10);
@@ -181,9 +181,12 @@ export class EmployeeComponent {
   }
   updateStaffDetails() {
     if (this.staffProfileImage != null || undefined) {
-      this.staffModel.profile = this.staffProfileImage;
+      this.staffModel.profile_image = this.staffProfileImage;
     }
-
+    if (this.staffProfileImage == null) {
+      this.staffModel.profile_image = null;
+    }
+    debugger
     this.companyService.updaetEmployeeDetails(this.staffModel).subscribe((res: any) => {
       this.staffData = res;
       this.toastr.success('Update Staff Details Successfully.', 'Updated', { timeOut: 3000, });

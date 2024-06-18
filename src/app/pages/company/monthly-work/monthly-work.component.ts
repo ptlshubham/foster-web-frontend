@@ -103,7 +103,7 @@ export class MonthlyWorkComponent implements OnInit {
   // getAllEmpDailyWork() {
   //   this.companyService.getAllDailyList().subscribe((data: any) => {
   //     const dailyData = data.filter((daily: any) => daily.designerid == this.eid);
-  //     debugger
+  //     
   //     const selectedDate = new Date(this.selectedMonth);
   //     const selectedMonth = selectedDate.getMonth(); // 0-11
   //     const selectedYear = selectedDate.getFullYear();

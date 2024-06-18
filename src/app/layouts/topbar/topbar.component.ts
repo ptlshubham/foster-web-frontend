@@ -39,11 +39,12 @@ export class TopbarComponent implements OnInit {
   staffModel: any = {}
   profile: any = localStorage.getItem('profile')
   eid: any = localStorage.getItem('Eid');
+  allTicketsData: any = [];
   sound: any = new Howl({
     src: ['assets/audio/notification.mp3']
   });
   isOpen: boolean = false;
-
+  notification: number = 0;
   private intervalId: any;
   private subscription: Subscription = new Subscription();
   constructor(
@@ -58,6 +59,7 @@ export class TopbarComponent implements OnInit {
 
   ) {
     this.getTokenByEmployee(false);
+    this.getAlltickets();
   }
 
   /**
@@ -124,16 +126,51 @@ export class TopbarComponent implements OnInit {
               }
             });
           });
-          debugger
+          
           if (this.tokenData.length > 0 && this.isOpen == false) {
+            this.notification = this.tokenData.length + this.allTicketsData.length;
+
             this.sound.play();
           }
         });
       })
     );
   }
+  getAlltickets() {
+    this.tokensService.getAllHelpTicket().subscribe((data: any) => {
+      if (this.role == 'companyAdmin') {
+        this.allTicketsData = data.filter((element: any) => element.isnotify == true && element.isemp == false);
+      }
+      else {
+        this.allTicketsData = data.filter((element: any) => element.eid == this.eid && element.isnotify == true && element.isemp == true);
+      }
+      
+      if (this.allTicketsData.length > 0) {
+        this.notification = this.tokenData.length + this.allTicketsData.length;
+        this.sound.play();
+      }
+    })
+  }
+  clearAllTicketNotification() {
+    
+    if (this.role != 'companyAdmin') {
+      this.tokensService.updateNotificationTicket(this.allTicketsData).subscribe((res: any) => {
+        this.notification = this.notification - this.allTicketsData.length;
+        this.getAlltickets();
+      })
+    }
+    else{
+      this.tokensService.updateClearAllTicketNotification(this.allTicketsData).subscribe((res: any) => {
+        this.notification = this.notification - this.allTicketsData.length;
+        this.getAlltickets();
+      })
+    }
+
+  }
+
   clearAllNotification() {
     this.tokensService.updateClearNotification(this.tokenData).subscribe((res: any) => {
+      this.notification = this.notification - this.tokenData.length;
       this.getTokenByEmployee(this.isOpen = false);
     })
   }

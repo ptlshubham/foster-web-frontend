@@ -35,6 +35,8 @@
                             @for (e of paginateData | slice:0:20; track $index) {
                             <tr class="unread">
                                 <td class="text-left">{{e.index}}</td>
+                                <td class="text-center" (click)="openTokenEmailDetails(e)" *ngIf="role=='companyAdmin'">
+                                    {{e.empname}}</td>
                                 <td class="text-center" (click)="openTokenEmailDetails(e)">
                                     <span class="badge bg-warning text-white " *ngIf="e.status=='Pending'"
                                         ngbTooltip="Token Pending" placement="top">Pending</span>
@@ -137,6 +139,28 @@
                                             required.</span>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6" *ngIf="role=='companyAdmin'">
+                                        <div class="mb-3">
+                                            <label for="choices-multiple-default"
+                                                class="form-label font-size-13 ">Select Employee</label>
+                                            <div class="multi_default">
+                                                <ng-select [items]="employeeList" [multiple]="false" bindLabel="name"
+                                                    [(ngModel)]="ticketModel.employees" formControlName="manager"
+                                                    placeholder="Select Employee">
+                                                    <ng-template ng-optgroup-tmp let-item="item">
+                                                        {{item.name || 'Unnamed group'}}
+                                                    </ng-template>
+                                                </ng-select>
+                                                <div *ngIf="f.manager.touched && f.manager.errors"
+                                                    class="invalid-feedback">
+                                                    <span *ngIf="f.manager.errors.required">This Field is
+                                                        required.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group mb-3">
                                     <label>Description</label>
                                     <ckeditor [editor]="Editor" data="" [(ngModel)]="ticketModel.description"
@@ -154,7 +178,7 @@
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button> -->
                             <button type="button" class="btn btn-primary" [disabled]="validationForm.invalid"
-                                (click)="SaveTicketDetails()">Submit <i class="fab fa-telegram-plane ms-1"></i></button>
+                                (click)="SaveTicketDetails()">Submit <i class="fab fa-telegram-plane"></i></button>
                         </div>
                     </div>
                 </div>

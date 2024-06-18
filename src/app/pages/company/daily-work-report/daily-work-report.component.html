@@ -7,7 +7,7 @@
             <div class="card-body">
                 <a href="javascript: void(0);" class="d-flex align-items-start mb-3"
                     *ngFor="let s of employeeList; let i = index" (click)="selectEmployee(i,s)">
-                    <img class="flex-shrink-0 me-3 rounded-circle" src="https://api.cesociety.in{{s.profile_image}}"
+                    <img class="flex-shrink-0 me-3 rounded-circle" src="http://localhost:9000{{s.profile_image}}"
                         alt="logo" height="36">
                     <div class="flex-grow-1 chat-user-box"
                         [ngClass]="{ 'selected-employee': i === selectedEmployeeIndex }">
@@ -38,12 +38,23 @@
                         <tbody>
                             <tr *ngFor="let s of paginateData;let i=index ">
                                 <td class="text-left">{{s.index}}</td>
+                                <td class="text-left">
+                                    <span class="badge bg-primary text-white" *ngIf="s.type=='Daily'">{{s.type}}</span>
+                                    <span class="badge bg-dark text-white" *ngIf="s.type=='Token'">{{s.type}}</span>
+                                </td>
                                 <td class="text-center">{{s.clientname}} </td>
                                 <td class="text-center">{{s.title}} </td>
-                                <td class="text-center">
+                                <td class="text-center" *ngIf="s.type=='Daily'">
                                     <span class="badge bg-primary me-1">{{ s.managername}}</span>
                                 </td>
-                                <td class="text-center"><span class="badge bg-primary me-1">{{ s.designername}}</span>
+                                <td class="text-center" *ngIf="s.type=='Daily'">
+                                    <span class="badge bg-primary me-1">{{ s.designername}}</span>
+                                </td>
+                                <td class="text-center" *ngIf="s.type=='Token'">
+                                    <span class="badge bg-primary me-1" *ngFor="let m of s.managers">{{ m.name}}</span>
+                                </td>
+                                <td class="text-center" *ngIf="s.type=='Token'">
+                                    <span class="badge bg-primary me-1" *ngFor="let m of s.designers">{{ m.name}}</span>
                                 </td>
                                 <td class="text-center">{{s.completeddate | date: 'MMM d, y, h:mm:ss a'}}</td>
                                 <td class="text-center" [ngbTooltip]="s.date | date: 'MMM d, y'">{{s.date |

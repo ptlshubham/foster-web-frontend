@@ -36,7 +36,7 @@ export class BulkUploadSchedulerComponent implements OnInit {
   getStaffDetails() {
     this.companyService.getEmployeeDetailsData().subscribe((res: any) => {
       this.employeeData = res;
-      debugger
+      
     })
   }
   onFileChange(evt: any) {
@@ -119,7 +119,7 @@ export class BulkUploadSchedulerComponent implements OnInit {
       }
     }
     this.bulkUploadedSchedule
-    debugger
+    
     let tempArray: any = [];
     for (let i = 0; i <= (this.bulkUploadedSchedule.length / 300); i++) {
       tempArray = [];
@@ -143,7 +143,7 @@ export class BulkUploadSchedulerComponent implements OnInit {
         })
       }
       else {
-        debugger
+        
         tempArray = [];
         let start = (i - 1) * 300;
         let end = this.bulkUploadedSchedule.length - start;

@@ -439,7 +439,7 @@ export class RequestTokensComponent {
     });
   }
   getAllToken() {
-    debugger
+
     this.tokensService.getAllTokenData().subscribe((res: any) => {
       this.tempTokenData = res;
       this.tempTokenData.forEach((element: any, index: number) => {
@@ -664,7 +664,7 @@ export class RequestTokensComponent {
           if (this.multiTokenImgData.length > 0) {
 
             this.multiTokenImgData.forEach((element: any, ind: any) => {
-              this.addMultiImg.push({ name: ind + 1, multiImageUrl: 'https://api.cesociety.in' + element.image });
+              this.addMultiImg.push({ name: ind + 1, multiImageUrl: 'http://localhost:9000' + element.image });
             });
           }
         })
@@ -687,7 +687,7 @@ export class RequestTokensComponent {
 
           }
         });
-        this.imageUrl = 'https://api.cesociety.in' + this.tokenModel.image;
+        this.imageUrl = 'http://localhost:9000' + this.tokenModel.image;
       }
 
     });
@@ -749,7 +749,7 @@ export class RequestTokensComponent {
 
 
   changeStatusByIdAndDelete(data: any) {
-    debugger
+
     Swal.fire({
       title: 'Are you sure?',
       text: 'You won\'t be able to revert this!',
@@ -924,6 +924,35 @@ export class RequestTokensComponent {
     }
 
   }
+  downloadFile(data: string) {
+    const filePath = 'http://localhost:9000' + data;
+    fetch(filePath)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
 
+        // Extract file extension from the file path
+        const fileExtension = filePath.split('.').pop();
+
+        // Set the download attribute based on the file extension
+        a.download = `token-file.${fileExtension}`;
+
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      })
+      .catch(error => {
+        console.error('Error reading the file:', error);
+      });
+  }
+  
 }
 

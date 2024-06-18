@@ -67,6 +67,8 @@ export class ClientsComponent {
   filterClientList: any = [];
   selectedClientData: any = {};
   roleWiseData: any = [];
+  designerSheets: any = [];
+
   constructor(
     public formBuilder: UntypedFormBuilder,
     private companyService: CompanyService,
@@ -230,7 +232,6 @@ export class ClientsComponent {
         this.getEmployeeWiseData();
         return;
       }
-
       res.forEach((element: any, index: number) => {
         const mediaArray = element.media.split(',').map((item: any) => item.trim());
         res[index].mediaArray = mediaArray;
@@ -358,7 +359,7 @@ export class ClientsComponent {
       this.clientModel.managers = assignedManagerList;
     })
 
-    this.imageUrl = 'https://api.cesociety.in' + data.logo;
+    this.imageUrl = 'http://localhost:9000' + data.logo;
     this.clientModel.profile = data.logo;
     this.clientModel = data;
     this.isOpen = true;
@@ -432,4 +433,17 @@ export class ClientsComponent {
     this.selectedClientData.clientid = id;
     this.modalService.open(openbulupload, { size: 'xl', windowClass: 'modal-holder', centered: true });
   }
+  openFullScreenModal(smallDataModal: any) {
+    this.getClientsDetailsForSheet();
+    this.modalService.open(smallDataModal, { size: 'fullscreen', windowClass: 'modal-holder' });
+  }
+  getClientsDetailsForSheet() {
+    this.companyService.getAllDesignerSheetList().subscribe((data: any) => {
+      data.forEach((row: any) => {
+        row.clients = row.clientnames.split(',').map((client: string) => client.trim());
+      });
+      this.designerSheets = data;
+    });
+  }
+
 }

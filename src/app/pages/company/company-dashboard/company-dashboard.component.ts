@@ -3,7 +3,7 @@ import { CompanyService } from 'src/app/core/services/company.service';
 import { ChartType } from './dashboard.model';
 
 import { TokensService } from 'src/app/core/services/tokens.service';
-import { elementAt, forkJoin } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 
 
@@ -66,6 +66,7 @@ export class CompanyDashboardComponent {
   eid: any = localStorage.getItem('Eid');
   title!: string;
   selectedMonth: string;
+  selectedBarMonth: string;
   currentMonth: string;
   designerList: any = []
   processingEmployeeTokens: any = []
@@ -105,21 +106,6 @@ export class CompanyDashboardComponent {
 
   cesCompleted: number = 0;
   cesInCompleted: number = 0;
-
-  Tokens: ChartType = {
-    chart: {
-      width: 227,
-      height: 227,
-      type: 'pie'
-    },
-    colors: ["#ffbf53", "#0e8f99", "#2ab57d"],
-    legend: { show: false },
-    stroke: {
-      width: 0
-    },
-    series: [],
-    labels: [],
-  };
 
   dailyWorkOverview: ChartType = {
     chart: {
@@ -169,40 +155,69 @@ export class CompanyDashboardComponent {
     series: [0],
     labels: ['Pending', 'Completed'],
   };
-  barChart: ChartType = {
-    chart: { height: 350, type: "bar", toolbar: { show: !1 } },
-    plotOptions: { bar: { horizontal: !0 } },
-    dataLabels: { enabled: !1 },
-    series: [],
-    colors: ['#2ab57d'],
-    grid: { borderColor: "#f1f1f1" },
-    xaxis: {
-      categories: [
-
-      ],
-    },
-  };
   donutChart: ChartType = {
-    chart: { height: 320, type: "donut" },
-    series: [44, 55, 41, 17, 15],
-    labels: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
-    colors: ["#2ab57d", "#5156be", "#fd625e", "#4ba6ef", "#ffbf53"],
+    chart: {
+      height: 320,
+      type: 'donut',
+    },
+    series: [],
+    labels: [],
+    colors: ['#fd625e', '#5156be', '#2ab57d', '#4ba6ef', '#ffbf53'],
     legend: {
-        show: !0,
-        position: "bottom",
-        horizontalAlign: "center",
-        verticalAlign: "middle",
-        floating: !1,
-        fontSize: "14px",
-        offsetX: 0,
+      show: true,
+      position: 'bottom',
+      horizontalAlign: 'center',
+      verticalAlign: 'middle',
+      floating: false,
+      fontSize: '14px',
+      offsetX: 0,
     },
     responsive: [
-        {
-            breakpoint: 600,
-            options: { chart: { height: 240 }, legend: { show: !1 } },
+      {
+        breakpoint: 600,
+        options: {
+          chart: {
+            height: 240,
+          },
+          legend: {
+            show: false,
+          },
         },
+      },
     ],
-};
+  };
+
+  marketOverview: ChartType = {
+    chart: {
+      height: 400,
+      type: 'bar',
+      stacked: !0,
+      offsetY: -5,
+      toolbar: {
+        show: !1
+      }
+    },
+    series: [
+      {
+        data: [],
+      }
+
+    ],
+    plotOptions: { bar: { columnWidth: "20%" } },
+    stroke: {
+      curve: 'smooth'
+    },
+    colors: ["#ffbf53", "#34c38f"],
+    fill: { opacity: 1 },
+    dataLabels: { enabled: !1 },
+    legend: { show: !1 },
+    xaxis: {
+      categories: [
+      ],
+      labels: { rotate: -90 },
+    },
+  };
+
   constructor(
     private companyService: CompanyService,
     public tokensService: TokensService,
@@ -210,6 +225,7 @@ export class CompanyDashboardComponent {
     const currentDate = new Date();
     this.selectedMonth = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
     this.currentMonth = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
+    this.selectedBarMonth = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
   }
   ngOnInit(): void {
 
@@ -232,14 +248,12 @@ export class CompanyDashboardComponent {
 
   isManagerLogin() {
     this.getAllTokens();
-    this.getBarDetails();
     this.getAllDailyWork();
     this.getClientsDetails();
     this.getAllTokenCompanyStatus();
   }
   isCompanyLogin() {
     this.getAllTokens();
-    this.getBarDetails();
     this.getAllEmployeeDetails();
     this.getAllDailyWork();
     this.getClientsDetails();
@@ -253,52 +267,46 @@ export class CompanyDashboardComponent {
       this.clientlist = res;
     })
   }
+
+  onMonthBarChange() {
+    this.getBarDetails();
+  }
+  
   getBarDetails() {
-    forkJoin(
-      this.companyService.getAllEmployeeDetailsData(),
-      this.companyService.getAllDailyList()
-    ).subscribe(([employeeRes, dailyWorkRes]: [any, any]) => {
-      this.employeeList = employeeRes;
-      const designers = this.employeeList
-        .filter((employee: any) => employee.role === 'Designer')
-        .map((employee: any) => ({ id: employee.id, name: employee.name }));
-
-      const designerIds = designers.map((designer: any) => designer.id);
-
-      // Initialize counts for total and completed works
-      const designerDailyWorkCounts: { [key: string]: number } = {};
-      const designerCompletedWorkCounts: { [key: string]: number } = {};
-
-      dailyWorkRes.forEach((work: any) => {
-        if (designerIds.includes(work.designerid)) {
-          if (!designerDailyWorkCounts[work.designerid]) {
-            designerDailyWorkCounts[work.designerid] = 0;
-            designerCompletedWorkCounts[work.designerid] = 0;
-          }
-          designerDailyWorkCounts[work.designerid]++;
-
-          if (work.iscompleted) {
-            designerCompletedWorkCounts[work.designerid]++;
-          }
-        }
+    const selectedDate = new Date(this.selectedBarMonth);
+    const selectedMonth = selectedDate.getMonth();
+    const selectedYear = selectedDate.getFullYear();
+  
+    const designerList = this.employeeList.filter((item: any) => item.role === 'Designer');
+  
+    this.companyService.getAllDailyList().subscribe((data: any) => {
+      const filteredData = data.filter((item: any) => {
+        const itemDate = new Date(item.date);
+        const isSameMonth = itemDate.getMonth() === selectedMonth;
+        const isSameYear = itemDate.getFullYear() === selectedYear;
+        const isDesigner = designerList.some((designer: any) => designer.id === item.designerid);
+  
+        return isSameMonth && isSameYear && isDesigner;
       });
-
-      // Prepare series data based on designer daily work counts
-      const seriesData = designers.map((designer: any) => ({
-        name: designer.name,
-        data: [
-          designerDailyWorkCounts[designer.id] || 0,
-          designerCompletedWorkCounts[designer.id] || 0
-        ]
-      }));
-
-      // Update x-axis categories with designer names
-      this.barChart.xaxis.categories = designers.map((designer: any) => designer.name);
-
-      // Update series data
-      this.barChart.series = seriesData;
+  
+      const categories = designerList.map((designer: any) => designer.name);
+      const completedSeriesData = categories.map((name: any) => {
+        const designerData = filteredData.filter((item: any) => item.designername === name && item.iscompleted);
+        return designerData.length;
+      });
+      const pendingSeriesData = categories.map((name: any) => {
+        const designerData = filteredData.filter((item: any) => item.designername === name && !item.iscompleted);
+        return -designerData.length;
+      });
+  
+      this.marketOverview.xaxis.categories = categories;
+      this.marketOverview.series = [
+        { name: 'Daily Pending', data: pendingSeriesData },
+        { name: 'Daily Completed', data: completedSeriesData }
+      ];
     });
   }
+
 
   changeStatusMail(event: Event, id: number): void {
     ;
@@ -308,11 +316,10 @@ export class CompanyDashboardComponent {
       iscompleted: isChecked
     };
     this.companyService.updateDailyById(data).subscribe((res: any) => {
-      this.getBarDetails();
     });
   }
   getAllDailyWork() {
-    debugger
+
     this.companyService.getAllDailyList().subscribe((data: any) => {
       // Store all daily work data
       this.dailyWorkData = data;
@@ -330,11 +337,6 @@ export class CompanyDashboardComponent {
       // Calculate the total number of pending tasks
       this.totalCompletedDailyWork = CompletedStories + CompletedPosts + CompletedReel;
       this.totalPendingDailyWork = pendingStories + pendingPosts + pendingReels;
-
-      // Optionally, log or process the totalPendingDailyWork as needed
-
-      // Continue with any additional logic, such as updating UI components
-      this.getBarDetails();
     });
   }
   getAllTokens() {
@@ -343,17 +345,18 @@ export class CompanyDashboardComponent {
       this.pendingDatatotal = res.filter((token: any) => token.status === 'Pending');
       this.processingDatatotal = res.filter((token: any) => token.status === 'Processing').length;
       this.completedDatatotal = res.filter((token: any) => token.status === 'Completed');
-      this.cesCompleted = res.filter((token: any) => token.status === 'Completed' && token.label == 'CES').length;
-      this.cesInCompleted = res.filter((token: any) => token.status != 'Completed' && token.label == 'CES').length;
 
-      this.CancelToken = res.filter((token: any) => token.status === 'Cancel');
-      this.Tokens.series.push(this.pendingDatatotal.length, this.processingDatatotal.length, this.completedDatatotal.length);
-      this.Tokens.labels.push('Pending', 'Processing', 'Completed');
+      this.donutChart.series = [
+        this.pendingDatatotal.length,
+        this.processingDatatotal,
+        this.completedDatatotal.length
+      ];
+      this.donutChart.labels = ['Pending Tokens', 'Processing Tokens', 'Completed Tokens'];
     });
   }
 
   getAllTokenCompanyStatus() {
-    debugger
+
     this.tokensService.getAllTokenData().subscribe((res: any) => {
       if (this.SelectedClient != null) {
 
@@ -372,7 +375,7 @@ export class CompanyDashboardComponent {
 
 
   getAllDailyWorkByClientId(clientId: number | null) {
-    debugger
+
     this.dailyWorkData = [];
     this.companyService.getAllDailyList().subscribe((data: any) => {
       // Filter daily work data based on selected client and month
@@ -426,6 +429,8 @@ export class CompanyDashboardComponent {
   getAllEmployeeDetails() {
     this.companyService.getAllEmployeeDetailsData().subscribe((res: any) => {
       this.employeeList = res;
+
+      this.getBarDetails();
       this.staffModel.role = localStorage.getItem('Role')
     })
   }
@@ -473,7 +478,7 @@ export class CompanyDashboardComponent {
     this.getAlldailyWorkForEmployee(null);
   }
   onSelectionChange(data: any) {
-    debugger
+
     if (data != null) {
       this.getAlldailyWorkForEmployee(data.clientid);
     }

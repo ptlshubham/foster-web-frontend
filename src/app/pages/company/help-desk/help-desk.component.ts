@@ -47,6 +47,7 @@ export class HelpDeskComponent {
   completedData: any = [];
   employeeId: any = localStorage.getItem('Eid');
   role: any = localStorage.getItem('Role');
+
   constructor(private modalService: NgbModal,
     public formBuilder: UntypedFormBuilder,
     public toastr: ToastrService,
@@ -68,6 +69,8 @@ export class HelpDeskComponent {
     this.validationForm = this.formBuilder.group({
       title: ['', [Validators.required]],
       description: [''],
+      manager: [''],
+      designer: ['']
 
     });
     this.isMailOpen = false;
@@ -76,6 +79,7 @@ export class HelpDeskComponent {
   get f() { return this.validationForm.controls; }
 
   open(content: any) {
+    this.getAllEmployeeDetails();
     this.modalService.open(content, { size: 'xl', centered: true });
   }
   setActiveTab(tab: string): void {
@@ -135,11 +139,21 @@ export class HelpDeskComponent {
   }
   SaveTicketDetails() {
     this.submitted = true;
-    this.ticketModel.status = 'Pending';
+    
     if (this.validationForm.invalid) {
       return;
     } else {
-      this.ticketModel.employeeid = ls.get('Eid', { decrypt: true });
+      this.ticketModel.status = 'Pending';
+      if (this.role != 'companyAdmin') {
+        this.ticketModel.isemp = false;
+        this.ticketModel.employeeid = ls.get('Eid', { decrypt: true });
+        this.ticketModel.empname = ls.get('Name', { decrypt: true });
+      }
+      else {
+        this.ticketModel.isemp = true;
+        this.ticketModel.employeeid = this.ticketModel.employees.id;
+        this.ticketModel.empname = this.ticketModel.employees.name;
+      }
       this.tokensService.saveHelpTicket(this.ticketModel).subscribe((res: any) => {
         this.allTicketsData = res;
         this.toastr.success('Client Details Successfully Saved.', 'Success', { timeOut: 3000, });
@@ -244,7 +258,7 @@ export class HelpDeskComponent {
   }
   getAllEmployeeDetails() {
     this.companyService.getAllEmployeeDetailsData().subscribe((res: any) => {
-      this.employeeList = res;
+      this.employeeList = res.filter((item: any) => item.role != 'companyAdmin');
     })
   }
   openTokenEmailDetails(data: any) {

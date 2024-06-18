@@ -41,12 +41,12 @@ export const comapnyAdmin: MenuItem[] = [
         icon: 'mdi mdi-clipboard-list-outline',
         link: '/todo-list',
     },
-    {
-        id: 7,
-        label: 'Attendance',
-        icon: 'mdi mdi-clipboard-list-outline',
-        link: '/attendance',
-    },
+    // {
+    //     id: 7,
+    //     label: 'Attendance',
+    //     icon: 'mdi mdi-clipboard-list-outline',
+    //     link: '/attendance',
+    // },
     // {
     //     id: 8,
     //     label: 'Posting',

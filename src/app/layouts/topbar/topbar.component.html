@@ -34,14 +34,8 @@
                 <button type="button" class="btn btn-primary position-relative mt-3 me-1"
                     (click)="getTokenByEmployee(true)" id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                    Notifications <span class="badge bg-danger ms-1">{{tokenData.length}}</span>
+                    Notifications <span class="badge bg-danger ms-1">{{notification}}</span>
                 </button>
-                <!-- <button type="button" class="btn header-item noti-icon position-relative"
-                    (click)="getTokenByEmployee(true)" id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                    <i-feather name="bell" class="icon-lg"></i-feather>
-                    <span class="badge bg-danger rounded-pill">{{tokenData.length}}</span>
-                </button> -->
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                     aria-labelledby="page-header-notifications-dropdown" ngbDropdownMenu>
                     <div class="p-3">
@@ -49,17 +43,13 @@
                             <div class="col">
                                 <h6 class="m-0"> {{ 'HEADER.NOTIFICATIONS.TITLE' | translate}} </h6>
                             </div>
-                            <div class="col-auto">
-                                <a href="javascript:void(0);" class="small text-reset text-decoration-underline"> {{
-                                    'HEADER.NOTIFICATIONS.VIEW_ALL' | translate}}</a>
-                            </div>
                         </div>
                     </div>
                     <ngx-simplebar style="max-height: 230px;">
                         <a href="javascript:void(0);" class="text-reset notification-item" *ngFor="let t of tokenData">
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
-                                    <img src="assets/images/users/avatar-3.jpg" class="rounded-circle avatar-sm"
+                                    <img src="assets/images/users/token.png" class="rounded-circle avatar-sm"
                                         alt="Client-Logo">
                                 </div>
                                 <div class="flex-grow-1">
@@ -73,13 +63,37 @@
                                 </div>
                             </div>
                         </a>
-                    </ngx-simplebar>
-                    <div class="p-2 border-top d-grid">
-                        <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)"
-                            (click)="clearAllNotification()">
-                            <i class="mdi mdi-notification-clear-all me-1"></i> <span>Clear All</span>
+                        <div class="p-2 border-top d-grid" *ngIf="tokenData.length>0">
+                            <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)"
+                                (click)="clearAllNotification()">
+                                <i class="mdi mdi-notification-clear-all me-1"></i> <span>Clear All</span>
+                            </a>
+                        </div>
+                        <a href="javascript:void(0);" class="text-reset notification-item"
+                            *ngFor="let t of allTicketsData">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 me-3">
+                                    <img src="assets/images/users/help.png" class="rounded-circle avatar-sm"
+                                        alt="Client-Logo">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">{{t.empname}}</h6>
+                                    <div class="font-size-13 text-muted">
+                                        <p class="mb-1 text-truncate">{{t.title}}</p>
+                                        <p class="mb-0"><i class="mdi mdi-calendar-month"></i> <span>{{t.createddate
+                                                |date}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </a>
-                    </div>
+                        <div class="p-2 border-top d-grid" *ngIf="allTicketsData.length>0">
+                            <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)"
+                                (click)="clearAllTicketNotification()">
+                                <i class="mdi mdi-notification-clear-all me-1"></i> <span>Clear All</span>
+                            </a>
+                        </div>
+                    </ngx-simplebar>
                 </div>
             </div>
 
@@ -90,7 +104,7 @@
                     ngbDropdownToggle>
                     <img class="rounded-circle header-profile-user" src="assets/images/users/keryar.jpg"
                         *ngIf="profile=='null' ||profile==null && company" alt="Header Avatar">
-                    <img class="rounded-circle header-profile-user" src="https://api.cesociety.in{{ profile }}"
+                    <img class="rounded-circle header-profile-user" src="http://localhost:9000{{ profile }}"
                         *ngIf="profile!='null' && profile!=null && company" alt="Header Avatar">
                     <span class="d-none d-xl-inline-block ms-1 fw-medium">{{adminName}}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>

@@ -302,14 +302,18 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">Client Details List</h5>
-                <div class="d-flex justify-content-end gap-2" *ngIf="comapanyRole=='companyAdmin'">
-                    <div class="form-group">
+                <div class="d-flex justify-content-end gap-2">
+                    <div class="form-group" *ngIf="comapanyRole=='companyAdmin'">
                         <input type="text" class="form-control" id="fname" placeholder="Search Client Name"
                             [(ngModel)]="searchQuery" (input)="applySearchFilter()">
                     </div>
                     <button type="button" class="btn btn-primary waves-effect btn-label waves-light"
-                        (click)="openAddClients()"><i class="bx bx-user-plus label-icon"></i>
+                        (click)="openAddClients()" *ngIf="comapanyRole=='companyAdmin'"><i
+                            class="bx bx-user-plus label-icon"></i>
                         Add New Client</button>
+                    <button type="button" class="btn btn-dark waves-effect waves-light"
+                        (click)="openFullScreenModal(fullDataModal)">
+                        Desinger Sheet</button>
                 </div>
 
             </div>
@@ -336,7 +340,7 @@
                             <tr *ngFor="let s of paginateData;let i=index ">
                                 <td class="text-left">{{s.index}}</td>
                                 <td class="text-center">
-                                    <img src="https://api.cesociety.in{{s.logo}}" alt="" class="rounded-circle avatar-sm">
+                                    <img src="http://localhost:9000{{s.logo}}" alt="" class="rounded-circle avatar-sm">
                                 </td>
                                 <td class="text-center">{{s.name}} </td>
                                 <td class="text-center">{{s.businesstype}} </td>
@@ -427,5 +431,42 @@
     </div>
     <div class="modal-body">
         <app-bulk-upload-scheduler [clientid]="selectedClientData.clientid"></app-bulk-upload-scheduler>
+    </div>
+</ng-template>
+<ng-template #fullDataModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title mt-0">Client Wise Designer List</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-hidden="true"></button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+            <table class="table mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="text-left">#</th>
+                        <th class="text-center">Profile</th>
+                        <th class="text-center">Employee Name</th>
+                        <th class="text-left">Clients Name</th>
+                        <th class="text-end">Total Clients</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of designerSheets,let i=index">
+                        <td class="text-left">{{i+1}}</td>
+                        <td class="text-center">
+                            <img src="http://localhost:9000{{d.profile_image}}" alt="" class="rounded-circle avatar-sm">
+                        </td>
+                        <td class="text-center">{{d.empname}}</td>
+                        <td class="text-left"><span class="badge bg-primary text-white me-1"
+                                *ngFor="let c of d.clients">{{c}}</span></td>
+                        <td class="text-end"><span class="badge bg-dark text-white p-1">{{d.numberofclients}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
     </div>
 </ng-template>

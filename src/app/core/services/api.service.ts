@@ -5,8 +5,8 @@ declare var $: any;
   providedIn: 'root'
 })
 export class ApiService {
-  // public static HOST_URL: string = "http://localhost:9000";
-  public static HOST_URL: string = "https://api.cesociety.in";
+  public static HOST_URL: string = "http://localhost:9000";
+  // public static HOST_URL: string = "https://api.cesociety.in";
 
   constructor(
   ) { }
@@ -75,8 +75,11 @@ export class ApiService {
   public static GetAllHelpTicketURL: string = ApiService.HOST_URL + '/admin/GetAllHelpTicket';
   public static UpdateHelpTokenStatusDetailsURL: string = ApiService.HOST_URL + '/admin/UpdateHelpTokenStatusDetails';
   public static getAssignedEmployeeForChartURl: string = ApiService.HOST_URL + '/admin/GetAssignedEmployeeForChart/';
+  public static getALLDesignerSheetURL: string = ApiService.HOST_URL + '/admin/GetALLDesignerSheet';
+  public static updateTicketNotificationURL: string = ApiService.HOST_URL + '/admin/UpdateTicketNotification';
+  public static updateTicketForAdminNotificationURL: string = ApiService.HOST_URL + '/admin/UpdateTicketForAdminNotification';
 
-
+  
 
   public static UpdateEmployeeLogoURL: string = ApiService.HOST_URL + '/admin/UpdateEmployeeLogo';
 

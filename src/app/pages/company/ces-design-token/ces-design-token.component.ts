@@ -148,7 +148,7 @@ export class CesDesignTokenComponent implements OnInit {
     }
     this.getAssignedEmpData(this.cesClientId);
     this.tokenModel = data;
-    debugger
+    
     this.isMailOpen = true;
     this.tokensService.getCESMultiTokenImageData(data.id).subscribe((res: any) => {
       this.multiTokenImgData = res;
@@ -176,12 +176,41 @@ export class CesDesignTokenComponent implements OnInit {
     if (this.tokenModel.description == undefined) {
       this.tokenModel.description = null;
     }
-    debugger
+    
     this.tokensService.SaveConvertCesTokendetails(this.tokenModel).subscribe((res: any) => {
       // this.tokenData = res;
       this.setActiveTab('allTokens');
       this.toastr.success('Token Details Successfully Saved.', 'Success', { timeOut: 3000, });
       this.tokenModel = {};
     })
+  }
+  downloadFile(data: string) {
+    const filePath = 'http://localhost:9000' + data;
+    fetch(filePath)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+
+        // Extract file extension from the file path
+        const fileExtension = filePath.split('.').pop();
+
+        // Set the download attribute based on the file extension
+        a.download = `token-file.${fileExtension}`;
+
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      })
+      .catch(error => {
+        console.error('Error reading the file:', error);
+      });
   }
 }
