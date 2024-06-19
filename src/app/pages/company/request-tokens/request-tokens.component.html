@@ -47,7 +47,7 @@
                     <div class="mt-2 client-list-container overflow-auto">
                         <a href="javascript: void(0);" class="d-flex align-items-start" *ngFor="let c of clientList"
                             (click)="openClientWiseList(c.id)">
-                            <img class="flex-shrink-0 me-3 rounded-circle" src="http://localhost:9000{{c.logo}}"
+                            <img class="flex-shrink-0 me-3 rounded-circle" src="https://api.cesociety.in{{c.logo}}"
                                 alt="logo" height="36">
                             <div class="flex-grow-1 chat-user-box">
                                 <p class="user-title m-0">{{c.name}}</p>
@@ -246,22 +246,24 @@
                 <div class="d-flex align-items-center mb-4">
                     <div class="flex-shrink-0 me-3">
                         <td class="text-center">
-                            <img src="http://localhost:9000{{openTokenData.clientlogo}}" alt=""
+                            <img src="https://api.cesociety.in{{openTokenData.clientlogo}}" alt=""
                                 class="rounded-circle avatar-sm">
                         </td>
                     </div>
                     <div class="flex-grow-1">
                         <h5 class="font-size-14 mb-1">{{openTokenData.clientname}}</h5>
-                        <td class="text-center">
-                            <span class="me-1">Manager: </span>
-                            <span class="badge bg-primary me-1" *ngFor="let m of openTokenData.assignedManagers">{{
-                                m.name
-                                }}</span>
-                        </td>
+                        <span class="me-1">Manager: </span>
+                        <span class="badge bg-primary me-1" *ngFor="let m of openTokenData.assignedManagers">{{
+                            m.name
+                            }}</span>
+                        <br>
                         <span class="me-1">Designers:</span>
                         <span class="badge bg-primary me-1" *ngFor="let m of openTokenData.assignedDesigners">{{
                             m.name
                             }}</span>
+                        <br>
+                        <span class="me-1">Delivery Date:</span>
+                        <span class="badge bg-primary me-1">{{openTokenData.deliverydate |date: 'MMM d, y'}}</span>
                     </div>
                 </div>
 
@@ -273,22 +275,22 @@
                     <div class="col-xl-2 col-6"
                         *ngIf="openTokenData.image!=undefined && openTokenData.image!='undefined'">
                         <div class="card">
-                            <img class="card-img-top img-fluid" [src]="'http://localhost:9000' +openTokenData.image"
+                            <img class="card-img-top img-fluid" [src]="'https://api.cesociety.in' +openTokenData.image"
                                 alt="Token Image">
                             <div class="py-2 text-center">
                                 <a href="javascript:void(0);"
-                                    (click)="downloadImage('http://localhost:9000' +openTokenData.image)"
+                                    (click)="downloadImage('https://api.cesociety.in' +openTokenData.image)"
                                     class="fw-medium">Download</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-2 col-6" *ngFor="let s of multiTokenImgData;let i=index">
                         <div class="card">
-                            <img class="card-img-top img-fluid" [src]="'http://localhost:9000' + s.image"
+                            <img class="card-img-top img-fluid" [src]="'https://api.cesociety.in' + s.image"
                                 alt="Token Image">
                             <div class="py-2 text-center">
                                 <a href="javascript:void(0);"
-                                    (click)="downloadImage('http://localhost:9000' + s.image)"
+                                    (click)="downloadImage('https://api.cesociety.in' + s.image)"
                                     class="fw-medium">Download</a>
                             </div>
                         </div>

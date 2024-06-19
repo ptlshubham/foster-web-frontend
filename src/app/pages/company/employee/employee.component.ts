@@ -142,7 +142,7 @@ export class EmployeeComponent {
     this.paginateData = this.filterEmployeeList.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
   openUpdateStaff(data: any) {
-    this.imageUrl = 'http://localhost:9000' + data.profile_image;
+    this.imageUrl = 'https://api.cesociety.in' + data.profile_image;
     this.staffModel.profile = data.profile_image;
     this.staffModel = data;
     this.staffModel.birthday_date = new Date(data.birthday_date).toISOString().slice(0, 10);

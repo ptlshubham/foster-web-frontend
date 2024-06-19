@@ -185,7 +185,7 @@ export class CesDesignTokenComponent implements OnInit {
     })
   }
   downloadFile(data: string) {
-    const filePath = 'http://localhost:9000' + data;
+    const filePath = 'https://api.cesociety.in' + data;
     fetch(filePath)
       .then(response => {
         if (!response.ok) {

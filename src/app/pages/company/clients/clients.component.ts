@@ -359,7 +359,7 @@ export class ClientsComponent {
       this.clientModel.managers = assignedManagerList;
     })
 
-    this.imageUrl = 'http://localhost:9000' + data.logo;
+    this.imageUrl = 'https://api.cesociety.in' + data.logo;
     this.clientModel.profile = data.logo;
     this.clientModel = data;
     this.isOpen = true;
